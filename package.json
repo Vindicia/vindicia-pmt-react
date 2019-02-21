@@ -1,0 +1,39 @@
+{
+  "name": "vindicia-react",
+  "version": "1.0.0",
+  "description": "React component for Vindicia payment library",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "webpack --watch",
+    "build": "webpack"
+  },
+  "repository": "git+https://github.com/projekt202/vindicia-react.git",
+  "author": "Mick Johnson <mick.johnson@projekt202.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/projekt202/vindicia-react/issues"
+  },
+  "homepage": "https://github.com/projekt202/vindicia-react#readme",
+  "dependencies": {
+    "acorn": "^6.1.0",
+    "crypto-js": "^3.1.9-1",
+    "react": "^16.8.1",
+    "webpack": "^4.29.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^2.1.0",
+    "style-loader": "^0.23.1",
+    "webpack-cli": "^3.2.3"
+  }
+}
