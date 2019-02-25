@@ -118,7 +118,13 @@ Example
 		type:  'cvn',
 		placeholder:  'CVN',
 		label:  'CVN'
-	}
+    },
+    {
+        type: 'text',
+        placeholder: '',
+        label: 'Billing Zip Code',
+        className: 'zip-code'
+    }
 ]
 ```
 
@@ -176,6 +182,13 @@ Example
 	},
 	'button[type="submit"]': {
 		padding:  '10px 20px',
-	}
+    },
+    'button[type="submit"][disabled]': {
+        'background-color': '#eee',
+        'color': '#ddd'
+    },
+    '.zip-code': {
+        'width': '100px'
+    }
 }
 ```
