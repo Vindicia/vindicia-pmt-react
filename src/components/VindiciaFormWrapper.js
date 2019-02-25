@@ -104,7 +104,7 @@ class VindiciaFormWrapper extends Component {
             onSubmitEvent: this.onSubmit,
             onSubmitCompleteEvent: this.onSubmitComplete,
             onSubmitCompleteFailedEvent: this.onSubmitFail,
-            onVindiciaFieldEvent: this.checkFormValidity
+            onVindiciaFieldEvent: this.onVindiciaFieldChange
         };
 
         return localOptions;
@@ -118,27 +118,28 @@ class VindiciaFormWrapper extends Component {
         }
     }
 
-    onVindiciaFieldChange = (vin) => {
+    onVindiciaFieldChange = (event) => {
+        const { onVindiciaFieldEvent } = this.props;
         this.checkFormValidity();
-        this.props.onVindiciaFieldEvent(vin);
+        return onVindiciaFieldEvent(event);
     }
 
-    onSubmit = (vin) => {
+    onSubmit = (form) => {
         const { onSubmitEvent } = this.props;
         this.setState({ submitInProgress: true });
-        onSubmitEvent(vin);
+        return onSubmitEvent(form);
     }
 
-    onSubmitFail = (vin) => {
+    onSubmitFail = (data) => {
         const { onSubmitCompleteFailedEvent } = this.props;
         this.setState({ submitInProgress: false });
-        onSubmitCompleteFailedEvent(vin);
+        return onSubmitCompleteFailedEvent(data);
     }
 
-    onSubmitComplete = (vin) => {
+    onSubmitComplete = (data) => {
         const { onSubmitCompleteEvent } = this.props;
         this.setState({ submitInProgress: false });
-        onSubmitCompleteEvent(vin);
+        return onSubmitCompleteEvent(data);
     }
 
     addFocusForProtectedFields() {
