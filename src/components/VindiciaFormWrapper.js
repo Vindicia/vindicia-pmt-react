@@ -81,10 +81,7 @@ class VindiciaFormWrapper extends Component {
         const {
             options,
             fields,
-            styles,
-            onSubmitEvent,
-            onSubmitCompleteEvent,
-            onSubmitCompleteFailedEvent } = this.props;
+            styles,} = this.props;
 
         const hostedFields = {};
         fields.forEach(item => {
@@ -105,7 +102,7 @@ class VindiciaFormWrapper extends Component {
             ...options,
             hostedFields,
             onSubmitEvent: this.onSubmit,
-            onSubmitCompleteEvent: onSubmitCompleteEvent,
+            onSubmitCompleteEvent: this.onSubmitComplete,
             onSubmitCompleteFailedEvent: this.onSubmitFail,
             onVindiciaFieldEvent: this.checkFormValidity
         };
@@ -119,6 +116,11 @@ class VindiciaFormWrapper extends Component {
         if (isValid !== window.vindicia.isValid()) {
             this.setState({ isValid: !isValid });
         }
+    }
+
+    onVindiciaFieldChange = (vin) => {
+        this.checkFormValidity();
+        this.props.onVindiciaFieldEvent(vin);
     }
 
     onSubmit = (vin) => {
