@@ -1,15 +1,23 @@
 
 # vindicia-pmt-react
+
 A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) system
 
 ------------
 
+ 
 # Setup
 Install vindicia-react
+
 `npm install --save vindicia-react`
 
+  
+
 Add Vindicia to application
+
 `<script id="vindicia-js" src="https://secure.vindicia.com/pmt/vindicia.js" async></script>`
+
+  
 
 # Usage
 
@@ -42,7 +50,6 @@ componentWillMount() {
 ```
 
 Add VindiciaFormWrapper to the component
-
 ```javascript
 <VindiciaFormWrapper
 	vindicia={vindicia}
@@ -63,12 +70,17 @@ Add VindiciaFormWrapper to the component
 |options|yes|
 |fields|yes|
 |styles|no|
+|onVindiciaFieldEvent|no|
+|onSubmitEvent|no|
+|onSubmitCompleteEvent|no|
+|onSubmitCompleteFailedEvent|no|
 
 ## vindicia
-The Vindicia Object
+The Vindicia object
 
 ## options
-Example
+The basic setup options
+
 ```javascript
 {
 	formId: 'your-form-id', // optional, defaults to mainForm
@@ -80,115 +92,136 @@ Example
 ```
 
 ## fields
-Example
-```javascript
-[
-	{
-		type:  'text',
-		label:  'Salutation',
-		placeholder:  'Mr/Ms/Mrs/Dr/Sr',
-		render:  null,
-		format:  null,
-		value:  null
-	},
-	{
-		type:  'name',
-		placeholder:  'Name',
-		label:  'Name'
-	},
-	{
-		render: (
-			<div  className="text-block">
-				This is a text block that is passed from the parent. Styles can be applied via the styles prop.
-			</div>
-		)
-	},
-	{
-		type:  'cardNumber',
-		placeholder:  'Credit Card Number',
-		label:  'Credit Card Number'
-	},
-	{
-		type:  'expirationDate',
-		placeholder:  'MM/YY',
-		format:  'MM/YY',
-		label:  'Expiration Date'
-	},
-	{
-		type:  'cvn',
-		placeholder:  'CVN',
-		label:  'CVN'
-    },
-    {
-        type: 'text',
-        placeholder: '',
-        label: 'Billing Zip Code',
-        className: 'zip-code'
-    }
-]
-```
+fields is an array of objects, each corresponding to an item on the final form.
 
-## styles
-Example
+Here is a rundown of the available fields on the field objects:
+|property|default|purpose|notes|
+|--|--|--|--|
+|type|`text`|determines type of field| accepts `'text'`, or one of the vindicia field values
+|label|`null`|creates `<label>` for given field|
+|placeholder|`''`|adds `placeholder` attribute on form fields
+|render|`null`|pass JSX to be displayed on form|overrides any constructed field logic
+|format|`null`|only used on expirationDate
+|value|`''`|default value of form field
+|name|| applies HTML ID to form element
+|autocomplete|`"off"`||Used with `cardNumber`, `expirationDate`, and `cvn` 
+|formatinput|`false`||Used with `cardNumber` and `expirationDate`
+|maskinput|`false`||Used with `cardNumber` or `cvn`
 
+You have a few ways of getting what you want into the form.
+
+#### Method 1 - construct text field
+----
+Passing in the following:
 ```javascript
 {
-	"input": {
-		"width":  "50%",
-		"font-family":  "'Helvetica Neue',Helvetica,Arial,sans-serif",
-		"font-size":  "14px",
-		"color":  "#777",
-		"height":  "auto",
-		"padding":  "6px 12px",
-		"margin":  "5px 0px",
-		"line-height":  "1.42857",
-		"border":  "1px solid #ccc",
-		"border-radius":  "4px",
-		"box-shadow":  "0px 1px 1px rgba(0,0,0,0.075) inset",
-		"-webkit-transition":  "border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s",
-		"transition":  "border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s",
-	},
-	"select": {
-		"width":  "100%",
-		"font-family":  "'Helvetica Neue',Helvetica,Arial,sans-serif",
-		"font-size":  "14px",
-		"color":  "#555",
-		"height":  "34px",
-		"padding":  "6px 12px",
-		"margin":  "5px 0px",
-		"line-height":  "1.42857",
-		"border":  "1px solid #ccc",
-		"border-radius":  "4px",
-		"box-shadow":  "0px 1px 1px rgba(0,0,0,0.075) inset",
-		"-webkit-transition":  "border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s",
-		"transition":  "border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s",
-	},
-	":focus": {
-		"border-color":  "#66afe9",
-		"outline":  "0",
-		"-webkit-box-shadow":  "inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)",
-		"box-shadow":  "inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)"
-	},
-	".valid": {
-		"border-color":  "#228B22",
-	},
-	".notValid": {
-		"border-color":  "#ff0000",
-	},
-	'.text-block': {
-		padding:  '10px',
-		'background-color':  '#ccc',
-		width:  '300px',
-	},
-	'button[type="submit"]': {
-		padding:  '10px 20px',
-    },
-    'button[type="submit"][disabled]': {
-        'background-color': '#eee',
-        'color': '#ddd'
-    },
-    '.zip-code': {
-        'width': '100px'
-    }
+	type:  'text',
+	label:  'Name',
+	placeholder:  'Your Full Name',
+	name:  'name'
+},
+```
+Will result in:
+
+![enter image description here](https://lh3.googleusercontent.com/vvv6m34cTTzxca3nN9JGsRhrn82Y8E0fpX6Ri-NYVkMsv846HtLUDbnLoxSXmGX4cH_IaCPuOC6oNg)
+
+
+
+#### Method 2 - construct vindicia field
+---
+The following fields are able to be created within Vindicia. Setting a field's 	`type` to any of these will result in Vindicia handling the creation and validation of that field.
+```
+name
+billing1
+billing2
+billing3
+city
+district // equivalent to US state
+postalCode
+country
+phone
+cardNumber
+expirationDate
+expirationMonth
+expirationYear
+cvn
+```
+
+#### Method 3 - Pass in jsx
+---
+Use of the `render` property allows for the passing in of JSX. This JSX can be a form field, a	`<div>`, or a custom component.
+
+Example of the use of the render property:
+```javascript
+{
+	render: (
+		<div  className="text-block">
+			<p>This is a text block that is passed from the parent. Styles can be applied via the styles prop.</p>
+		</div>
+	)
+},
+{
+	label:  'Address',
+	render: (
+		<input
+			type="text"
+			id="address"
+			required
+		/>
+	),
+	name:  'address'
+},
+{
+	render: (
+		<MyComponent />
+	),
 }
 ```
+Note that in the first example, no properties other than `render` are passed in, while in the second example, `label` and `name` are passed. This is to ensure the `<label>` is created and synced with the `<input>` field via use of the `name` property which sets the `htmlFor` attribute on the `<label>`.
+
+## styles
+Any styles pertaining to Vindicia-generated fields must be limited to the following rules:
+```
+color
+width
+height
+border
+border-color
+border-radius
+font
+font-family
+font-size
+font-size-adjust
+font-stretch
+font-style
+font-variant
+font-variant-alternates
+font-variant-caps
+font-variant-east-asian
+font-variant-ligatures
+font-variant-numeric
+font-weight
+line-height
+opacity
+outline
+padding
+margin
+text-shadow
+box-shadow
+-webkit-box-shadow
+-moz-osx-font-smoothing
+-moz-transition
+-webkit-font-smoothing
+-webkit-transition
+transition
+```
+
+## onVindiciaFieldEvent
+The onVindiciaFieldEvent is called when an onBlur event fires from a Vindicia-generated field. Note this function is not called when a constructed or passed-in field is modified.
+
+## onSubmitEvent
+onSubmitEvent fires when the submit button is clicked, but before data is submitted. This is your chance to run validation on the form's inputs.
+
+## onSubmitCompleteEvent
+
+## onSubmitCompleteFailedEvent
