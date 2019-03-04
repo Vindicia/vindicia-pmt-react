@@ -43,11 +43,13 @@ class VindiciaFormWrapper extends Component {
 
         const formFields = {};
 
-        fields.map(field => {
-            if (field.name) {
-                formFields[field.name] = field.value || '';
-            }
-        });
+        if (fields) {
+            fields.map(field => {
+                if (field.name) {
+                    formFields[field.name] = field.value || '';
+                }
+            });
+        }
 
         this.setState({ formFields });
     }
@@ -84,23 +86,49 @@ class VindiciaFormWrapper extends Component {
             styles,} = this.props;
 
         const hostedFields = {};
-        fields.forEach(item => {
+        const localFields = fields ? [...fields] : [];
+
+        if (fields) {
+            fields.forEach(item => {
+                for (let i = 0; i < hostedFieldDefaults.length; i++) {
+                    if (item.type === hostedFieldDefaults[i].name) {
+                        hostedFields[hostedFieldDefaults[i].name] = {
+                            selector: item.selector || hostedFieldDefaults[i].selector,
+                            placeholder: item.placeholder || hostedFieldDefaults[i].placeholder || '',
+                            label: item.label || hostedFieldDefaults[i].label,
+                            format: item.format || hostedFieldDefaults[i].format
+                        };
+                    }
+                }
+            });
+        } else { // if no fields are passed, add the default fields to the form
             for (let i = 0; i < hostedFieldDefaults.length; i++) {
-                if (item.type === hostedFieldDefaults[i].name) {
+                if (hostedFieldDefaults[i].isDefault) {
                     hostedFields[hostedFieldDefaults[i].name] = {
-                        selector: item.selector || hostedFieldDefaults[i].selector,
-                        placeholder: item.placeholder || hostedFieldDefaults[i].placeholder,
-                        format: item.format || hostedFieldDefaults[i].format
+                        selector: hostedFieldDefaults[i].selector,
+                        format: hostedFieldDefaults[i].format,
+                        placeholder: '',
+                        type: hostedFieldDefaults[i].name
                     };
+                    localFields.push({
+                        selector: hostedFieldDefaults[i].selector,
+                        label: hostedFieldDefaults[i].label,
+                        format: hostedFieldDefaults[i].format,
+                        placeholder: '',
+                        type: hostedFieldDefaults[i].name
+                    })
                 }
             }
-        });
+        }
 
-        hostedFields.styles = styles;
+        hostedFields.styles = styles || defaultStyles;
+        options.iframeHeightPadding = options.iframeHeightPadding || 0;
+        options.formId = options.formId || 'mainForm';
 
         const localOptions = {
             ...options,
             hostedFields,
+            fields: localFields,
             onSubmitEvent: this.onSubmit,
             onSubmitCompleteEvent: this.onSubmitComplete,
             onSubmitCompleteFailedEvent: this.onSubmitFail,
@@ -155,9 +183,17 @@ class VindiciaFormWrapper extends Component {
     }
 
     parseStyles() {
-        const { styles } = this.props;
+        const {
+            localOptions : { 
+                hostedFields: { 
+                    styles 
+                } 
+            } 
+        } = this.state;
 
         let styleOutput = '';
+
+        console.log('STYLES', styles);
 
         Object.keys(styles).map(selector => {
             styleOutput += `${selector} {\n`;
@@ -167,12 +203,13 @@ class VindiciaFormWrapper extends Component {
             styleOutput += '}\n';
         });
 
+        console.log('SYLEOUTPUT', styleOutput)
+
         return styleOutput;
     }
 
     renderFields() {
-        const { fields } = this.props;
-        const { localOptions : { hostedFields } } = this.state;
+        const { localOptions : { fields, hostedFields } } = this.state;
 
         return hostedFields && fields.map((field, index) => {
 
@@ -200,6 +237,8 @@ class VindiciaFormWrapper extends Component {
                 );
             }
 
+            console.log('EACH FIELD', field);
+
             return (
                 <div
                     className="field-group"
@@ -219,8 +258,6 @@ class VindiciaFormWrapper extends Component {
         });
     }
 
-
-
     render () {
         const {
             sessionId,
@@ -231,33 +268,28 @@ class VindiciaFormWrapper extends Component {
         const {
             options,
             children,
-            vindicia,
-            styles } = this.props;
+            vindicia } = this.props;
 
         return (vindicia &&
             <form id={options.formId || 'mainForm'}>
                 <input name="vin_session_id" value={sessionId} type="hidden" />
                 <input name="vin_session_hash" value={sessionHash} type="hidden" />
+                <style
+                    type="text/css"
+                    dangerouslySetInnerHTML={{__html: this.parseStyles()}}
+                />
                 {children ?
                     children
                     : (
                         <div>
-                            {styles &&
-                                <style
-                                    type="text/css"
-                                    dangerouslySetInnerHTML={{__html: this.parseStyles(styles)}}
-                                />
-                            }
-                            <div>
-                                {this.renderFields()}
-                                <button
-                                    type="submit"
-                                    id="submitButton"
-                                    disabled={!isValid || submitInProgress}
-                                >
-                                    Submit
-                                </button>
-                            </div>
+                            {this.renderFields()}
+                            <button
+                                type="submit"
+                                id="submitButton"
+                                disabled={!isValid || submitInProgress}
+                            >
+                                Submit
+                            </button>
                         </div>
                     )
                 }
@@ -285,20 +317,137 @@ VindiciaFormWrapper.defaultProps = {
 };
 
 const hostedFieldDefaults = [
-    { name: 'name', selector: '#vin_account_holder' },
-    { name: 'billing1', selector: '#vin_billing_address_line1' },
-    { name: 'billing2', selector: '#vin_billing_address_line2' },
-    { name: 'billing3', selector: '#vin_billing_address_line3' },
-    { name: 'city', selector: '#vin_billing_city' },
-    { name: 'district', selector: '#vin_billing_address_district' },
-    { name: 'postalCode', selector: '#vin_billing_address_postal_code' },
-    { name: 'country', selector: '#vin_billing_address_country' },
-    { name: 'phone', selector: '#vin_billing_address_phone' },
-    { name: 'cardNumber', selector: '#vin_credit_card_account' },
-    { name: 'expirationDate', selector: '#vin_credit_card_expiration_date', format: 'MM/YY' },
-    { name: 'expirationMonth', selector: '#vin_credit_card_expiration_month' },
-    { name: 'expirationYear', selector: '#vin_credit_card_expiration_year' },
-    { name: 'cvn', selector: '#vin_credit_card_cvn' }
+    {
+        name: 'name',
+        label: 'Name',
+        selector: '#vin_account_holder' },
+    {
+        name: 'billing1',
+        label: 'Address Line 1',
+        selector: '#vin_billing_address_line1'
+    },
+    {
+        name: 'billing2',
+        label: 'Address Line 2',
+        selector: '#vin_billing_address_line2'
+    },
+    {
+        name: 'billing3',
+        label: 'Address Line 3',
+        selector: '#vin_billing_address_line3'
+    },
+    {
+        name: 'city',
+        label: 'City',
+        selector: '#vin_billing_city'
+    },
+    {
+        name: 'district',
+        label: 'State',
+        selector: '#vin_billing_address_district'
+    },
+    {
+        name: 'postalCode',
+        label: 'Postal Code',
+        selector: '#vin_billing_address_postal_code'
+    },
+    {
+        name: 'country',
+        label: 'Country',
+        selector: '#vin_billing_address_country'
+    },
+    {
+        name: 'phone',
+        selector: '#vin_billing_address_phone'
+    },
+    {
+        name: 'cardNumber',
+        label: 'Card Number',
+        selector: '#vin_credit_card_account',
+        isDefault: true
+    },
+    {
+        name: 'expirationDate',
+        label: 'Expiration Date',
+        selector: '#vin_credit_card_expiration_date',
+        format: 'MM/YY',
+        isDefault: true
+    },
+    {
+        name: 'expirationMonth',
+        selector: '#vin_credit_card_expiration_month'
+    },
+    {
+        name: 'expirationYear',
+        selector: '#vin_credit_card_expiration_year'
+    },
+    {
+        name: 'cvn',
+        label: 'CVN',
+        selector: '#vin_credit_card_cvn',
+        isDefault: true
+    }
 ];
+
+const defaultStyles = {
+    'input': {
+        'width': '200px',
+        'display': 'block',
+        'font-family': '"Helvetica Neue",Helvetica,Arial,sans-serif',
+        'font-size': '14px',
+        'color': '#777',
+        'height': 'auto',
+        'padding': '6px 12px',
+        'margin': '5px 0px 20px 0px',
+        'line-height': '1.42857',
+        'border': '1px solid #ccc',
+        "border-radius": "4px",
+        "box-shadow": "0px 1px 1px rgba(0,0,0,0.075) inset",
+        "-webkit-transition": "border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s",
+        "transition": "border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s",
+    },
+    "select": {
+        "width": "100%",
+        "font-family": "'Helvetica Neue',Helvetica,Arial,sans-serif",
+        "font-size": "14px",
+        "color": "#555",
+        "height": "34px",
+        "padding": "6px 12px",
+        "margin": "5px 0px",
+        "line-height": "1.42857",
+        "border": "1px solid #ccc",
+        "border-radius": "4px",
+        "box-shadow": "0px 1px 1px rgba(0,0,0,0.075) inset",
+        "-webkit-transition": "border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s",
+        "transition": "border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s",
+    },
+    ":focus": {
+        "border-color": "#66afe9",
+        "outline": "0",
+        "-webkit-box-shadow": "inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)",
+        "box-shadow": "inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)"
+    },
+    ".valid": {
+        "border-color": "#228B22",
+    },
+    ".notValid": {
+        "border-color": "#ff0000",
+    },
+    '.text-block': {
+        padding: '10px',
+        'background-color': '#ccc',
+        width: '300px',
+    },
+    'button[type="submit"]': {
+        'padding': '10px 20px',
+        'background-color': '#ccc',
+        'color': '#444',
+        'border-radius': '4px',
+    },
+    'button[type="submit"][disabled]': {
+        'background-color': '#eee',
+        'color': '#ddd'
+    }
+};
 
 export default VindiciaFormWrapper;
