@@ -1,6 +1,7 @@
 
 
 # vindicia-pmt-react
+
 A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) system
 
 ## Table of Contents
@@ -47,13 +48,13 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 Add an event listener to `componentWillMount` which will add vindicia to state upon load
 	```javascript
 	componentWillMount() {
-	if (window.vindicia) {
-		this.setState({vindicia: window.vindicia});
-	} else {
-		document.querySelector('#vindicia-js').addEventListener('load', () => {
-		this.setState({vindicia: window.vindicia});
-		});
-	}
+    if (window.vindicia) {
+      this.setState({vindicia: window.vindicia});
+    } else {
+      document.querySelector('#vindicia-js').addEventListener('load', () => {
+        this.setState({vindicia: window.vindicia});
+      });
+    }
 	}
 	```
 
@@ -131,11 +132,10 @@ Passing in the following:
 },
 ```
 Will result in:
-
 ![Example of constructed field](demo/images/constructed-field-example.png)
 
 
-### Method 2 - construct vindicia field
+#### Method 2 - construct vindicia field
 ---
 The following fields are able to be created within Vindicia. Setting a field's 	`type` to any of these will result in Vindicia handling the creation and validation of that field.
 ```
@@ -217,11 +217,10 @@ Example of the use of the render property:
 {
   render: (
     <MyComponent />
-  ),
+  )
 }
 ```
 Note that in the first example, no properties other than `render` are passed in, while in the second example, `label` and `name` are passed. This is to ensure the `<label>` is created and synced with the `<input>` field via use of the `name` property which sets the `htmlFor` attribute on the `<label>`.
-
 
 ## styles
 Any styles pertaining to Vindicia-generated fields must be limited to the following rules:
