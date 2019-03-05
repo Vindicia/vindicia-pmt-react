@@ -5,7 +5,15 @@
   "main": "build/index.js",
   "scripts": {
     "start": "webpack --watch",
-    "build": "webpack"
+    "build": "webpack",
+    "lint": "eslint src/**/*.js src/**/*.jsx",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "enzyme",
+    "testEnvironmentOptions": {
+      "enzymeAdapter": "react16"
+    }
   },
   "repository": "git+https://github.com/projekt202/vindicia-react.git",
   "author": "Mick Johnson <mick.johnson@projekt202.com>",
@@ -17,6 +25,8 @@
   "dependencies": {
     "acorn": "^6.1.0",
     "crypto-js": "^3.1.9-1",
+    "enzyme-adapter-react-16": "^1.10.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.1",
     "webpack": "^4.29.3"
   },
@@ -26,6 +36,7 @@
     "@babel/preset-env": "^7.3.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
@@ -35,7 +46,14 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^2.1.0",
     "enzyme": "^3.9.0",
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
     "jest": "^24.1.0",
+    "jest-environment-enzyme": "^7.0.1",
+    "jest-enzyme": "^7.0.1",
     "style-loader": "^0.23.1",
     "webpack-cli": "^3.2.3"
   }
