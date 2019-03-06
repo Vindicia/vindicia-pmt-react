@@ -26,12 +26,9 @@ class VindiciaFormWrapper extends Component {
     const { localOptions } = this.state;
 
     this.updateHiddenFields();
-
     if (vindicia) {
       vindicia.setup(localOptions);
     }
-
-    this.addFocusForProtectedFields();
   }
 
   componentWillUnmount() {
@@ -172,19 +169,6 @@ class VindiciaFormWrapper extends Component {
     this.setState({ formFields });
   }
 
-  addFocusForProtectedFields() {
-    const { fields, vindicia } = this.props;
-
-    fields.forEach((field) => {
-      const { selector } = fields[field];
-      const el = document.querySelectorAll(`[for="${selector.slice(1, selector.length)}"`);
-
-      if (el && vindicia.frames[field].source) {
-        el.onclick = vindicia.frames[field].source.focus();
-      }
-    });
-  }
-
   parseStyles() {
     const {
       localOptions: {
@@ -268,7 +252,7 @@ class VindiciaFormWrapper extends Component {
         <form id={options.formId || 'mainForm'}>
           <input name="vin_session_id" value={sessionId} type="hidden" />
           <input name="vin_session_hash" value={sessionHash} type="hidden" />
-          <style type="text/css" innerHTML={{ __html: this.parseStyles() }} />
+          <style type="text/css" dangerouslySetInnerHTML={{ __html: this.parseStyles() }} />
           {children || (
             <div>
               {this.renderFields()}
@@ -284,10 +268,10 @@ class VindiciaFormWrapper extends Component {
 }
 
 VindiciaFormWrapper.propTypes = {
-  options: PropTypes.shapeOf(PropTypes.object),
+  options: PropTypes.shape({}),
   fields: PropTypes.arrayOf(PropTypes.object),
-  styles: PropTypes.shapeOf(PropTypes.object),
-  vindicia: PropTypes.shapeOf(PropTypes.object).isRequired,
+  styles: PropTypes.shape({}),
+  vindicia: PropTypes.shape({}).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
