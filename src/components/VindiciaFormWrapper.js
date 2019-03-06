@@ -119,6 +119,8 @@ class VindiciaFormWrapper extends Component {
       }
     }
 
+    console.log('HOSTED FIELDS', hostedFields)
+
     hostedFields.styles = styles || defaultStyles;
     options.iframeHeightPadding = options.iframeHeightPadding || 0;
     options.formId = options.formId || 'mainForm';
@@ -195,15 +197,17 @@ class VindiciaFormWrapper extends Component {
       formFields,
     } = this.state;
 
-    return (
-      hostedFields
-      && fields.map((field, index) => {
+    console.log('RENDERFIELDS',fields, hostedFields)
+
+    return (hostedFields && fields.map((field, index) => {
         let inputField;
 
         const validHostedFieldValues = hostedFieldDefaults.reduce(
           (acc, curr) => acc.concat(curr.name),
           [],
         );
+
+        console.log(validHostedFieldValues, field.type);
 
         if (validHostedFieldValues.includes(field.type)) {
           let { selector } = hostedFields[field.type];
@@ -284,9 +288,9 @@ VindiciaFormWrapper.propTypes = {
 
 VindiciaFormWrapper.defaultProps = {
   options: {},
-  fields: {},
-  styles: {},
-  children: [],
+  fields: null,
+  styles: null,
+  children: null,
   onSubmitEvent: () => true,
   onSubmitCompleteEvent: () => true,
   onSubmitCompleteFailedEvent: () => true,

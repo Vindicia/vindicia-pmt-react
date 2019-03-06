@@ -52,6 +52,7 @@ export const defaultStyles = {
     'background-color': '#ccc',
     color: '#444',
     'border-radius': '4px',
+    'font-size': '12px',
   },
   'button[type="submit"][disabled]': {
     'background-color': '#eee',
