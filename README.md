@@ -113,6 +113,7 @@ The options settings are fairly straightforward. Likely, the only think you will
 `fields` is an array of objects, each corresponding to an item on the final form.
 
 Here is a rundown of the available fields on the field objects:
+
 |property|default|purpose|notes|
 |--|--|--|--|
 |type|`text`|determines type of field|accepts `'text'`, or one of the [vindicia field](#method-2---construct-vindicia-field) values|
