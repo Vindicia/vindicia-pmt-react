@@ -2,126 +2,136 @@
 
 # vindicia-pmt-react
 
-A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) system
+A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) system. Use this component to wrap a form containing payment details to use the Vindicia PMT system. The form can either be constructed by the component or passed in via `children` prop.
 
-## Table of Contents
+---
+
+# Table of Contents
+
 - [vindicia-pmt-react](#vindicia-pmt-react)
-	- [Table of Contents](#table-of-contents)
+- [Table of Contents](#table-of-contents)
 - [Setup](#setup)
 - [Quickstart](#quickstart)
 - [Props](#props)
-	- [vindicia](#vindicia)
-	- [options](#options)
-	- [fields](#fields)
-	- [### Method 1 - construct text field](#method-1---construct-text-field)
-	- [### Method 2 - construct vindicia field](#method-2---construct-vindicia-field)
-	- [### Method 3 - Pass in jsx](#method-3---pass-in-jsx)
-	- [styles](#styles)
-	- [onVindiciaFieldEvent](#onvindiciafieldevent)
-	- [onSubmitEvent](#onsubmitevent)
-	- [onSubmitCompleteEvent](#onsubmitcompleteevent)
-	- [onSubmitCompleteFailedEvent](#onsubmitcompletefailedevent)
-- [How to create your form](#how-to-create-your-form)
-  
- 
-# Setup
-1. Install vindicia-react
- `npm install --save vindicia-pmt-react`
+  - [vindicia](#vindicia)
+  - [options](#options)
+  - [fields](#fields)
+    - [Method 1 - Construct text field](#method-1---construct-text-field)
+    - [Method 2 - Construct vindicia field](#method-2---construct-vindicia-field)
+    - [Method 3 - Pass in jsx](#method-3---pass-in-jsx)
+  - [styles](#styles)
+  - [onVindiciaFieldEvent](#onvindiciafieldevent)
+  - [onSubmitEvent](#onsubmitevent)
+  - [onSubmitCompleteEvent](#onsubmitcompleteevent)
+  - [onSubmitCompleteFailedEvent](#onsubmitcompletefailedevent)
+- [How to](#how-to)
+  - [Create your form](#create-your-form)
+  - [Style your form](#style-your-form)
 
-2. Add Vindicia to application
+---
+
+# Setup
+
+1. Install vindicia-react\
+`npm install --save vindicia-pmt-react`
+
+2. Add Vindicia to application\
 `<script id="vindicia-js" src="https://secure.vindicia.com/pmt/vindicia.js" async></script>`
   
-
+---
 # Quickstart
+
 1.  Import VindiciaFormWrapper to your component\
 `import VindiciaFormWrapper from 'vindicia-react';`
-2. Initialize vindicia to null in component state
-	```javascript
-	constructor() {
-	  super();
-	  this.state = {
-		vindicia:  null
-	  };
-	}
-	```
-3. Bind Vindicia on Load\
-Add an event listener to `componentWillMount` which will add vindicia to state upon load
-	```javascript
-	componentWillMount() {
-    if (window.vindicia) {
-      this.setState({vindicia: window.vindicia});
-    } else {
-      document.querySelector('#vindicia-js').addEventListener('load', () => {
-        this.setState({vindicia: window.vindicia});
-      });
-    }
-	}
-	```
 
-4. Add VindiciaFormWrapper to the component
+1. Add VindiciaFormWrapper to the component
 	```javascript
-	<VindiciaFormWrapper
-	  vindicia={vindicia}
-	  options={options}
-	  fields={fields}
-	  styles={styles}
-	  onSubmitEvent={this.onSubmitEvent}
-	  onSubmitCompleteEvent={this.onSubmitCompleteEvent}
-	  onSubmitCompleteFailedEvent={this.onSubmitCompleteFailedEvent}
-	  onVindiciaFieldEvent={this.onVindiciaFieldEvent}
-	/>
+    <VindiciaFormWrapper
+      vindicia={window.vindicia}
+      options={
+        {
+          vindiciaAuthId: 'your-auth-id',
+          vindiciaServer: 'secure.vindicia.com',
+          vindiciaRestServer: 'api.vindicia.com'
+        }
+      }
+      onSubmitCompleteEvent={(e) => console.log('Form submit success!', e)}
+    />
 	```
-5. Define your props
-
+---
 # Props
+
 |Prop|Required?|
-|--|--|
-|vindicia|yes  |
-|options|yes|
-|fields|no|
-|styles|no|
-|onVindiciaFieldEvent|no|
-|onSubmitEvent|no|
-|onSubmitCompleteEvent|no|
-|onSubmitCompleteFailedEvent|no|
+|--|--|--|
+|[vindicia](#vindicia)|yes|
+|[options](#options)|yes|
+|[fields](#fields)|no|
+|[styles](#styles)|no|
+|[onVindiciaFieldEvent](#onVindiciaFieldEvent)|no|
+|[onSubmitEvent](#onSubmitEvent)|no|
+|[onSubmitCompleteEvent](#onSubmitCompleteEvent)|no|
+|[onSubmitCompleteFailedEvent](#onSubmitCompleteFailedEvent)|no|
+
+---
 
 ## vindicia
-The Vindicia object
 
-## options
-The basic setup options
+The Vindicia object, from `vindicia.js`.
+
+You can access this by adding the `<script>` tag to your index.html and either pulling it straight from `window.vindicia` or binding it to state on load. Below is an example which uses an event listener in `componentWillMount`:
 
 ```javascript
-{
-  formId: 'mainForm', // optional, defaults to mainForm
-  vindiciaAuthId: 'your auth id', // required
-  vindiciaServer: "secure.qa.vindicia.com", // required, to load the iframes from
-  vindiciaRestServer: "api.qa.vindicia.com", // required, to submit the JSON data to
-  iframeHeightPadding: 0, // optional, defaults to 0
+componentWillMount() {
+  if (window.vindicia) {
+    this.setState({vindicia: window.vindicia});
+  } else {
+    document.querySelector('#vindicia-js').addEventListener('load', () => {
+      this.setState({vindicia: window.vindicia});
+    });
+  }
 }
 ```
 
+---
+
+## options
+
+The options settings are fairly straightforward. Likely, the only think you will need to edit is the `vindiciaAuthId`.
+
+```javascript
+{
+  formId: 'mainForm', // optional, defaults to 'mainForm'
+  vindiciaAuthId: 'your-auth-id', // required
+  vindiciaServer: "secure.vindicia.com", // required, to load the iframes from
+  vindiciaRestServer: "api.vindicia.com", // required, to submit the JSON data to
+  iframeHeightPadding: 0, // optional, defaults to 0
+}
+```
+---
 ## fields
-fields is an array of objects, each corresponding to an item on the final form.
+
+`fields` is an array of objects, each corresponding to an item on the final form.
 
 Here is a rundown of the available fields on the field objects:
 |property|default|purpose|notes|
 |--|--|--|--|
-|type|`text`|determines type of field| accepts `'text'`, or one of the [vindicia field](#method-2---construct-vindicia-field) values
+|type|`text`|determines type of field| accepts `'text'`, or one of the [vindicia field](#method-2---construct-vindicia-field) values|
 |label|`null`|creates `<label>` for given field|
-|placeholder|`''`|adds `placeholder` attribute on form fields
-|render|`null`|pass JSX to be displayed on form|overrides any constructed field logic
-|format|`null`|only used on expirationDate
-|value|`''`|default value of form field
-|name|| applies HTML ID to form element
-|autocomplete|`"off"`|Makes use of the browser's autofill feature|Used with `cardNumber`, `expirationDate`, and `cvn` 
-|formatinput|`false`||Used with `cardNumber` and `expirationDate`
-|maskinput|`false`||Used with `cardNumber` or `cvn`
+|placeholder|`''`|adds `placeholder` attribute on form fields|
+|render|`null`|pass JSX to be displayed on form|overrides any constructed field logic|
+|format|`null`|only used on expirationDate|
+|value|`''`|default value of form field|
+|name|| applies HTML ID to form element|
+|autocomplete|`"off"`|Makes use of the browser's autofill feature|Used with `cardNumber`, `expirationDate`, and `cvn`|
+|formatinput|`false`||Used with `cardNumber` and `expirationDate`|
+|maskinput|`false`||Used with `cardNumber` or `cvn`|
 
-There are several ways to leverage fields, as outlined below.
+There are several ways to leverage fields, outlined below:
 
-### Method 1 - construct text field
-----
+---
+
+### Method 1 - Construct text field
+
 Passing in the following:
 ```javascript
 {
@@ -132,30 +142,33 @@ Passing in the following:
 },
 ```
 Will result in:
+
 ![Example of constructed field](demo/images/constructed-field-example.png)
 
-
-#### Method 2 - construct vindicia field
 ---
-The following fields are able to be created within Vindicia. Setting a field's 	`type` to any of these will result in Vindicia handling the creation and validation of that field.
-```
-name
-billing1
-billing2
-billing3
-city
-district // equivalent to US state
-postalCode
-country
-phone
-cardNumber
-expirationDate
-expirationMonth
-expirationYear
-cvn
-```
 
-For a pure credit card entry form, the simplest way forward is to use Vindicia-constructed fields.  This essentially give Vindicia full control (aside from styling) of your form.
+### Method 2 - Construct vindicia field
+
+The following fields are able to be created within Vindicia, which creates an iframe to enhance security. Setting a field's `type` to any of these will result in Vindicia handling the creation and validation of that field.
+
+|Field Name|CSS Selector|Notes|
+|--|--|--|
+|name|#vin_account_holder
+|billing1|#vin_billing_address_line1
+|billing2|#vin_billing_address_line2
+|billing3|#vin_billing_address_line3
+|city|#vin_billing_city
+|district|#vin_billing_address_district|Equivalent to US state|
+|postalCode|#vin_billing_address_postal_code
+|country|#vin_billing_address_country
+|phone|#vin_billing_address_phone
+|cardNumber|#vin_credit_card_account
+|expirationDate|#vin_credit_card_expiration_date
+|expirationMonth|#vin_credit_card_expiration_month|May be used alongside `expirationYear` instead of `expirationDate`
+|expirationYear|#vin_credit_card_expiration_year
+|cvn|#vin_credit_card_cvn
+
+For a pure credit card entry form, the simplest way forward is to use Vindicia-constructed fields.  This essentially gives Vindicia full control (aside from styling) of your form.
 
 Using the following `fields` setup:
 ```javascript
@@ -189,9 +202,10 @@ Will result in:
 
 ![Example of Vindicia-constructed fields](demo/images/vindicia-fields-example.png)
 
+---
 
 ### Method 3 - Pass in jsx
----
+
 Use of the `render` property allows for the passing in of JSX. This JSX can be a form field, a	`<div>`, or a custom component.
 
 Example of the use of the render property:
@@ -220,10 +234,16 @@ Example of the use of the render property:
   )
 }
 ```
+
 Note that in the first example, no properties other than `render` are passed in, while in the second example, `label` and `name` are passed. This is to ensure the `<label>` is created and synced with the `<input>` field via use of the `name` property which sets the `htmlFor` attribute on the `<label>`.
 
+---
+
 ## styles
-Any styles pertaining to Vindicia-generated fields must be limited to the following rules:
+
+The `styles` prop is what can be passed in to apply CSS styles to the form wrapper.
+
+Any style may be passed in and will affect any element of the generated form EXCEPT for protected fields within a Vindicia-generated iframe. For those fields ([listed here](#method-2---construct-vindicia-field)), CSS is limited to the following rules:
 ```
 color
 width
@@ -259,38 +279,137 @@ box-shadow
 transition
 ```
 
+---
+
 ## onVindiciaFieldEvent
+
 `onVindiciaFieldEvent` is called when an onBlur event fires from a Vindicia-generated field. Note this function is not called when a constructed or passed-in field is modified.
 
+---
+
 ## onSubmitEvent
+
 `onSubmitEvent` fires when the submit button is clicked, but before data is submitted. This is your chance to run validation on the form's inputs.
 
+---
+
 ## onSubmitCompleteEvent
+
 `onSubmitCompleteEvent` is called when the form has been submitted and validated successfully. This is where you would proceed with your checkout process, e.g. route the user to a success page.
+
+---
 
 ## onSubmitCompleteFailedEvent
 
-# How to create your form
-There are three methods to creating your form. You can:
-1. Use the `fields` prop to pass in each field or JSX element, one after the other.
-2. Pass in your own form as a child element, i.e.-
-	```javascript
-	<VindiciaFormWrapper
-	  vindicia={vindicia}
-	  options={vindiciaOptions}
-	  styles={styles}
-	>
-	  <div className="your-field-container">
-		<div className="form-group">
+`onSubmitCompleteFailedEvent` is called when the form has been submitted but fails server validation.
 
-		</div>
-	  </div>
-	</VindiciaFormWrapper>
-	```
-3. Pass in no children or `fields` prop, and a form will be created that has fields for card number, expiration date, and cvn. The following will be enough to create your form, though you may want to add handlers for the submitComplete events.
+---
+
+# How to
+## Create your form
+
+There are three methods to creating your form. You can:
+
+1. Use the `fields` prop to pass in each field or JSX element, one after the other. For more information, see the [fields documentation](#fields) above.
+2. Pass in your own form as a child element, i.e.
 	```javascript
-	<VindiciaFormWrapper
-	  vindicia={vindicia}
-	  options={vindiciaOptions}
-	/>
+    <VindiciaFormWrapper
+      vindicia={vindicia}
+      options={vindiciaOptions}
+      styles={styles}
+    >
+      <div className="your-form">
+        <div class="form-group">
+          <label for="vin_credit_card_account">Card Number</label>
+          <div id="vin_credit_card_account"></div>
+        </div>
+        <div class="form-group">
+          <label for="vin_credit_card_expiration_date">Expiration Date</label>
+          <div id="vin_credit_card_expiration_date"></div>
+        </div>
+        <div class="form-group">
+          <label for="vin_credit_card_account">CVN</label>
+          <div id="vin_credit_card_account"></div>
+        </div>
+        <button type="submit" disabled={!vindicia.isValid()}>Submit</button>
+      </div>
+    </VindiciaFormWrapper>
 	```
+    Resulting in:\
+    ![Example of Vindicia-constructed fields](demo/images/children-prop.png)\
+3. Pass in no children or `fields` prop, and a form will be created that has fields for `card number`, `expiration date`, and `cvn`. The following will be enough to create your form, though you may want to add handlers for the `submitComplete` events.
+	```javascript
+    <VindiciaFormWrapper
+      vindicia={vindicia}
+      options={vindiciaOptions}
+    />
+	```
+    Resulting in:\
+    ![Example of default form setup](demo/images/no-children-or-fields.png)
+
+## Style your form
+
+VindiciaFormWrapper is quite customizable as far as styling goes. This is an example style object passed in via the `style` prop:
+```javascript
+{
+  input: {
+    width: '200px',
+    display: 'block',
+    'font-family': '"Helvetica Neue",Helvetica,Arial,sans-serif',
+    'font-size': '14px',
+    color: '#777',
+    height: 'auto',
+    padding: '6px 12px',
+    margin: '5px 0px 20px 0px',
+    'line-height': '1.42857',
+    border: '1px solid #ccc',
+    'border-radius': '4px',
+    'box-shadow': '0px 1px 1px rgba(0,0,0,0.075) inset',
+    '-webkit-transition': 'border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s',
+    transition: 'border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s',
+  },
+  select: {
+    width: '100%',
+    'font-family': "'Helvetica Neue',Helvetica,Arial,sans-serif",
+    'font-size': '14px',
+    color: '#555',
+    height: '34px',
+    padding: '6px 12px',
+    margin: '5px 0px',
+    'line-height': '1.42857',
+    border: '1px solid #ccc',
+    'border-radius': '4px',
+    'box-shadow': '0px 1px 1px rgba(0,0,0,0.075) inset',
+    '-webkit-transition': 'border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s',
+    transition: 'border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s',
+  },
+  ':focus': {
+    'border-color': '#66afe9',
+    outline: '0',
+    '-webkit-box-shadow': 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)',
+    'box-shadow': 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)',
+  },
+  '.valid': {
+    'border-color': '#228B22',
+  },
+  '.notValid': {
+    'border-color': '#ff0000',
+  },
+  '.text-block': {
+    padding: '10px',
+    'background-color': '#ccc',
+    width: '300px',
+  },
+  'button[type="submit"]': {
+    padding: '10px 20px',
+    'background-color': '#ccc',
+    color: '#444',
+    'border-radius': '4px',
+    'font-size': '12px',
+  },
+  'button[type="submit"][disabled]': {
+    'background-color': '#eee',
+    color: '#ddd',
+  },
+}
+```
