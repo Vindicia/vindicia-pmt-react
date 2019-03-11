@@ -115,16 +115,16 @@ The options settings are fairly straightforward. Likely, the only think you will
 Here is a rundown of the available fields on the field objects:
 |property|default|purpose|notes|
 |--|--|--|--|
-|type|`text`|determines type of field| accepts `'text'`, or one of the [vindicia field](#method-2---construct-vindicia-field) values|
-|label|`null`|creates `<label>` for given field|
-|placeholder|`''`|adds `placeholder` attribute on form fields|
+|type|`text`|determines type of field|accepts `'text'`, or one of the [vindicia field](#method-2---construct-vindicia-field) values|
+|label|`null`|creates `<label>` for given field||
+|placeholder|`''`|adds `placeholder` attribute on form fields||
 |render|`null`|pass JSX to be displayed on form|overrides any constructed field logic|
-|format|`null`|only used on expirationDate|
-|value|`''`|default value of form field|
-|name|| applies HTML ID to form element|
-|autocomplete|`"off"`|Makes use of the browser's autofill feature|Used with `cardNumber`, `expirationDate`, and `cvn`|
-|formatinput|`false`||Used with `cardNumber` and `expirationDate`|
-|maskinput|`false`||Used with `cardNumber` or `cvn`|
+|format|`null`|only used on expirationDate||
+|value|`''`|default value of form field||
+|name|`null`| applies HTML ID to form element||
+|autocomplete|`'off'`|Makes use of the browser's autofill feature|Used with `cardNumber`, `expirationDate`, and `cvn`|
+|formatinput|`false`||Used with `cardNumber` and `expirationDate`||
+|maskinput|`false`||Used with `cardNumber` or `cvn`||
 
 There are several ways to leverage fields, outlined below:
 
@@ -336,7 +336,8 @@ There are three methods to creating your form. You can:
     </VindiciaFormWrapper>
 	```
     Resulting in:\
-    ![Example of Vindicia-constructed fields](demo/images/children-prop.png)\
+    ![Example of Vindicia-constructed fields](demo/images/children-prop.png)
+
 3. Pass in no children or `fields` prop, and a form will be created that has fields for `card number`, `expiration date`, and `cvn`. The following will be enough to create your form, though you may want to add handlers for the `submitComplete` events.
 	```javascript
     <VindiciaFormWrapper
@@ -349,9 +350,9 @@ There are three methods to creating your form. You can:
 
 ## Style your form
 
-VindiciaFormWrapper is quite customizable as far as styling goes. This is an example style object passed in via the `style` prop:
+`VindiciaFormWrapper` is quite customizable as far as styling goes. This is an example style object passed in via the `style` prop:
 ```javascript
-{
+const style = {
   input: {
     width: '200px',
     display: 'block',
