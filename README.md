@@ -61,16 +61,16 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 ---
 # Props
 
-|Prop|Required?|
-|--|--|--|
-|[vindicia](#vindicia)|yes|
-|[options](#options)|yes|
-|[fields](#fields)|no|
-|[styles](#styles)|no|
-|[onVindiciaFieldEvent](#onVindiciaFieldEvent)|no|
-|[onSubmitEvent](#onSubmitEvent)|no|
-|[onSubmitCompleteEvent](#onSubmitCompleteEvent)|no|
-|[onSubmitCompleteFailedEvent](#onSubmitCompleteFailedEvent)|no|
+|Prop|Required?
+|--|--|
+|[vindicia](#vindicia)|yes
+|[options](#options)|yes
+|[fields](#fields)|no
+|[styles](#styles)|no
+|[onVindiciaFieldEvent](#onVindiciaFieldEvent)|no
+|[onSubmitEvent](#onSubmitEvent)|no
+|[onSubmitCompleteEvent](#onSubmitCompleteEvent)|no
+|[onSubmitCompleteFailedEvent](#onSubmitCompleteFailedEvent)|no
 
 ---
 
