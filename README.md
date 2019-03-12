@@ -83,6 +83,7 @@ You can access this by adding
 `<script id="vindicia-js" src="https://secure.vindicia.com/pmt/vindicia.js" async></script>`
 
 to your index.html and either pulling it straight from the global variable `window.vindicia` or binding it to state on load.
+
 Below is an example which uses an event listener in `componentWillMount`:
 
 ```javascript
