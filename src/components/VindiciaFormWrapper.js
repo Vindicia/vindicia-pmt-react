@@ -49,8 +49,9 @@ class VindiciaFormWrapper extends Component {
 
   checkFormValidity = () => {
     const { isValid } = this.state;
+    const { vindicia } = this.props;
 
-    if (isValid !== window.vindicia.isValid()) {
+    if (isValid !== vindicia.isValid()) {
       this.setState({ isValid: !isValid });
     }
   };
