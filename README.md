@@ -150,7 +150,7 @@ Passing in the following:
 ```
 Will result in:
 
-![Example of constructed field](demo/images/constructed-field-example.png)
+![Example of constructed field](docs/images/constructed-field-example.png)
 
 ---
 
@@ -207,7 +207,7 @@ const fields = [
 ```
 Will result in:
 
-![Example of Vindicia-constructed fields](demo/images/vindicia-fields-example.png)
+![Example of Vindicia-constructed fields](docs/images/vindicia-fields-example.png)
 
 ---
 
@@ -343,7 +343,7 @@ There are three methods to creating your form. You can:
     </VindiciaFormWrapper>
 	```
     Resulting in:\
-    ![Example of Vindicia-constructed fields](demo/images/children-prop.png)
+    ![Example of Vindicia-constructed fields](docs/images/children-prop.png)
 
 3. Pass in no children or `fields` prop, and a form will be created that has fields for `card number`, `expiration date`, and `cvn`. The following will be enough to create your form, though you may want to add handlers for the `submitComplete` events.
 	```javascript
@@ -353,7 +353,7 @@ There are three methods to creating your form. You can:
     />
 	```
     Resulting in:\
-    ![Example of default form setup](demo/images/no-children-or-fields.png)
+    ![Example of default form setup](docs/images/no-children-or-fields.png)
 
 ## Style your form
 
