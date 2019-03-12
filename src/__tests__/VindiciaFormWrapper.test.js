@@ -8,10 +8,13 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('VindiciaFormWrapper', () => {
   const vindiciaObj = {
     setup: jest.fn(),
-    destroy: jest.fn()
+    destroy: jest.fn(),
+    isValid: jest.fn(),
+    clearData: jest.fn(),
+    resetCompleteStatus: jest.fn()
   };
   const fields = [
-    { type: 'name' },
+    { type: 'text', label: 'Name', name: 'cardholder-name' },
     {
       type: 'cardNumber',
       label: 'Credit Card Number',
@@ -56,11 +59,101 @@ describe('VindiciaFormWrapper', () => {
     expect(vindiciaObj.destroy).toHaveBeenCalled();
   });
 
-  it('should load fields and change field value', () => {
+  it('should generate default fields when no fields are passed in', () => {
+    const wrapper = mount(<VindiciaFormWrapper
+      vindicia={vindiciaObj}
+    />);
+
+    // default fields at this time: cardNumber, expirationDate, cvn
+    
+    expect(wrapper.state('localOptions')['hostedFields']['cardNumber']).toBeTruthy();
+    expect(wrapper.state('localOptions')['hostedFields']['expirationDate']).toBeTruthy();
+    expect(wrapper.state('localOptions')['hostedFields']['cvn']).toBeTruthy();
+  });
+
+  it('should load fields and change field value in state', () => {
+    const nameValue = 'Hans Christian Anderson';
     const wrapper = mount(<VindiciaFormWrapper
       fields={fields}
       vindicia={vindiciaObj}
     />);
-    console.log(wrapper.debug());
+
+    expect(wrapper.state('formFields')).toEqual({
+      'cardholder-name': ''
+    });
+    
+    wrapper.find('#cardholder-name').simulate('change', {
+      target: { value: nameValue }
+    });
+    
+    expect(wrapper.state('formFields')).toEqual({
+      'cardholder-name': nameValue
+    });
+  });
+
+  it('should allow submit only when form is valid', () => {
+    const mockSubmit = jest.fn();
+
+    const wrapper = mount(<VindiciaFormWrapper
+      fields={fields}
+      vindicia={vindiciaObj}
+      onSubmitEvent={mockSubmit}
+    />);
+
+    expect(wrapper.find('button').prop('disabled')).toEqual(true);
+
+    wrapper.setState({isValid: true});
+    
+    expect(wrapper.find('button').prop('disabled')).toEqual(false);
+    expect(wrapper.state('submitInProgress')).toEqual(false);
+
+    // simulate form submission
+    wrapper.instance().onSubmit();
+
+    expect(wrapper.state('submitInProgress')).toEqual(true);
+    expect(mockSubmit.mock.calls.length).toEqual(1);
+  });
+
+  it('should call passed in props on prop events', () => {
+    const mockFieldChange = jest.fn(),
+          mockSubmitComplete = jest.fn(),
+          mockSubmitFail = jest.fn(),
+          mockSubmit = jest.fn();
+
+    const wrapper = mount(<VindiciaFormWrapper
+      fields={fields}
+      vindicia={vindiciaObj}
+      onSubmitEvent={mockSubmit}
+      onSubmitCompleteEvent={mockSubmitComplete}
+      onSubmitCompleteFailedEvent={mockSubmitFail}
+      onVindiciaFieldEvent={mockFieldChange}
+    />);
+
+    wrapper.instance().onVindiciaFieldChange();
+    expect(mockFieldChange.mock.calls.length).toEqual(1);
+
+    wrapper.instance().onSubmit();
+    expect(mockSubmit.mock.calls.length).toEqual(1);
+
+    wrapper.instance().onSubmitComplete();
+    expect(mockSubmitComplete.mock.calls.length).toEqual(1);
+
+    wrapper.instance().onSubmitFail();
+    expect(mockSubmitFail.mock.calls.length).toEqual(1);
+  });
+
+  it('should make use of resetVindicia', () => {
+    const wrapper = mount(<VindiciaFormWrapper
+      fields={fields}
+      vindicia={vindiciaObj}
+    />);
+
+    const startingHash = wrapper.state('sessionHash');
+
+    wrapper.instance().resetVindicia();
+
+    expect(wrapper.state('sessionHash')).not.toEqual(startingHash);
+
+
   });
 });

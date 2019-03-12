@@ -78,11 +78,13 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 
 The Vindicia object, from `vindicia.js`.
 
-You can access this by adding\
+You can access this by adding
 
-`<script id="vindicia-js" src="https://secure.vindicia.com/pmt/vindicia.js" async></script>`\
+`<script id="vindicia-js" src="https://secure.vindicia.com/pmt/vindicia.js" async></script>`
 
-tag to your index.html and either pulling it straight from `window.vindicia` or binding it to state on load. Below is an example which uses an event listener in `componentWillMount`:
+to your index.html and either pulling it straight from the global variable `window.vindicia` or binding it to state on load.
+
+Below is an example which uses an event listener in `componentWillMount`:
 
 ```javascript
 componentWillMount() {
@@ -100,7 +102,7 @@ componentWillMount() {
 
 ## options
 
-The options settings are fairly straightforward. Likely, the only think you will need to edit is the `vindiciaAuthId`.
+The options settings are fairly straightforward. Likely, the only thing you will need to edit is the `vindiciaAuthId`.
 
 ```javascript
 {
@@ -131,7 +133,7 @@ Here is a rundown of the available fields on the field objects:
 |formatinput|`false`||Used with `cardNumber` and `expirationDate`||
 |maskinput|`false`||Used with `cardNumber` or `cvn`||
 
-There are several ways to leverage fields, outlined below:
+There are several ways to leverage `fields`, outlined below:
 
 ---
 
