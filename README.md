@@ -78,7 +78,11 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 
 The Vindicia object, from `vindicia.js`.
 
-You can access this by adding the `<script>` tag to your index.html and either pulling it straight from `window.vindicia` or binding it to state on load. Below is an example which uses an event listener in `componentWillMount`:
+You can access this by adding\
+
+`<script id="vindicia-js" src="https://secure.vindicia.com/pmt/vindicia.js" async></script>`\
+
+tag to your index.html and either pulling it straight from `window.vindicia` or binding it to state on load. Below is an example which uses an event listener in `componentWillMount`:
 
 ```javascript
 componentWillMount() {
