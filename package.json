@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack --watch",
     "build": "webpack",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs webpack src/index.js -o dist/vindicia-pmt-react.min.js --config webpack.config.prod.js",
     "lint": "eslint src/**/*.js",
     "test": "jest --verbose",
     "test:watch": "jest --watchAll --verbose",
@@ -17,7 +18,7 @@
     }
   },
   "repository": "git+https://github.com/vindicia/vindicia-pmt-react.git",
-  "author": "Mick Johnson <mick.johnson@projekt202.com>",
+  "author": "Vindicia (https://www.vindicia.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/vindicia/vindicia-pmt-react/issues"
@@ -57,7 +58,6 @@
     "react-dom": "^16.8.4",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-cli": "^3.2.3"
   }
 }
