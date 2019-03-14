@@ -197,46 +197,45 @@ class VindiciaFormWrapper extends Component {
     } = this.state;
 
     return (hostedFields && fields.map((field, index) => {
-        let inputField;
+      let inputField;
 
-        const validHostedFieldValues = hostedFieldDefaults.reduce(
-          (acc, curr) => acc.concat(curr.name),
-          [],
+      const validHostedFieldValues = hostedFieldDefaults.reduce(
+        (acc, curr) => acc.concat(curr.name),
+        [],
+      );
+
+      if (validHostedFieldValues.includes(field.type)) {
+        let { selector } = hostedFields[field.type];
+        selector = selector.substring(1, selector.length);
+
+        inputField = <div id={selector} />;
+      } else {
+        inputField = (
+          <input
+            className={`field-group__input ${field.className || ''}`}
+            type={field.type || 'text'}
+            placeholder={field.placeholder || ''}
+            value={formFields[field.name]}
+            id={field.name}
+            onChange={e => this.onFieldChange(field, e)}
+          />
         );
+      }
 
-        if (validHostedFieldValues.includes(field.type)) {
-          let { selector } = hostedFields[field.type];
-          selector = selector.substring(1, selector.length);
-
-          inputField = <div id={selector} />;
-        } else {
-          inputField = (
-            <input
-              className={`field-group__input ${field.className || ''}`}
-              type={field.type || 'text'}
-              placeholder={field.placeholder || ''}
-              value={formFields[field.name]}
-              id={field.name}
-              onChange={e => this.onFieldChange(field, e)}
-            />
-          );
-        }
-
-        return (
-          <div
-            className="field-group"
-            key={`vin-field-${field.label || field.type || `jsx-${field.name || index}`}`}
-          >
-            {field.label && (
-              <label className="field-group__label" htmlFor={field.name}>
-                {field.label}
-              </label>
-            )}
-            {field.render || inputField}
-          </div>
-        );
-      })
-    );
+      return (
+        <div
+          className="field-group"
+          key={`vin-field-${field.label || field.type || `jsx-${field.name || index}`}`}
+        >
+          {field.label && (
+            <label className="field-group__label" htmlFor={field.name}>
+              {field.label}
+            </label>
+          )}
+          {field.render || inputField}
+        </div>
+      );
+    }));
   }
 
   render() {
@@ -252,14 +251,14 @@ class VindiciaFormWrapper extends Component {
           <input name="vin_session_id" value={sessionId} type="hidden" />
           <input name="vin_session_hash" value={sessionHash} type="hidden" />
           <style type="text/css" dangerouslySetInnerHTML={{ __html: this.parseStyles() }} />
-          {children || (
-            <div>
-              {this.renderFields()}
-              <button type="submit" id="submitButton" disabled={!isValid || submitInProgress}>
-                Submit
-              </button>
-            </div>
-          )}
+            {children || (
+              <div>
+                {this.renderFields()}
+                <button type="submit" id="submitButton" disabled={!isValid || submitInProgress}>
+                  Submit
+                </button>
+              </div>
+            )}
         </form>
       )
     );

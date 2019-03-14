@@ -2,15 +2,21 @@
   "name": "vindicia-pmt-react",
   "version": "1.0.0",
   "description": "A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) system",
-  "main": "build/index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jxnext:main": "es/index.js",
   "scripts": {
     "start": "webpack --watch",
-    "build": "webpack",
-    "build:umd:min": "cross-env BABEL_ENV=commonjs webpack src/index.js -o dist/vindicia-pmt-react.min.js --config webpack.config.prod.js",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build:umd": "cross-env BABEL_ENV=commonjs webpack src/index.js -o dist/vindicia-pmt-react.js --config webpack.config.prod.js --env.noMinimize",
+    "build:min": "cross-env BABEL_ENV=commonjs webpack src/index.js -o dist/vindicia-pmt-react.min.js --config webpack.config.prod.js",
+    "build": "yarn run lint && yarn run build:commonjs && yarn run build:es && yarn run build:umd && yarn run build:min",
     "lint": "eslint src/**/*.js",
     "test": "jest --verbose",
     "test:watch": "jest --watchAll --verbose",
-    "test:coverage": "jest --verbose --coverage"
+    "test:coverage": "jest --verbose --coverage",
+    "demo": "webpack-dev-server --content-base dist"
   },
   "jest": {
     "testEnvironmentOptions": {
@@ -24,25 +30,30 @@
     "url": "https://github.com/vindicia/vindicia-pmt-react/issues"
   },
   "homepage": "https://github.com/vindicia/vindicia-pmt-react#readme",
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "es"
+  ],
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "prop-types": "^15.7.2",
     "react": "^16.8.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.3.3",
-    "@babel/preset-env": "^7.3.1",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
@@ -58,6 +69,7 @@
     "react-dom": "^16.8.4",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
   }
 }
