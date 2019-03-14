@@ -1,6 +1,6 @@
 {
   "name": "vindicia-pmt-react",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) system",
   "main": "lib/index.js",
   "module": "es/index.js",
