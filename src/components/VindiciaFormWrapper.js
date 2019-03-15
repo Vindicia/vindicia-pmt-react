@@ -14,6 +14,7 @@ class VindiciaFormWrapper extends Component {
       isValid: false,
       submitInProgress: false,
       formFields: {},
+      shouldLoad: this.shouldLoad(),
     };
   }
 
@@ -23,11 +24,13 @@ class VindiciaFormWrapper extends Component {
 
   componentDidMount() {
     const { vindicia } = this.props;
-    const { localOptions } = this.state;
+    const { localOptions, shouldLoad } = this.state;
 
-    this.updateHiddenFields();
-    if (vindicia) {
-      vindicia.setup(localOptions);
+    if (shouldLoad) {
+      this.updateHiddenFields();
+      if (vindicia) {
+        vindicia.setup(localOptions);
+      }
     }
   }
 
@@ -79,6 +82,11 @@ class VindiciaFormWrapper extends Component {
     this.setState({ submitInProgress: false });
     return onSubmitCompleteEvent(data);
   };
+
+  shouldLoad() {
+    const { options } = this.props;
+    return options.hmac && options.vindiciaAuthId;
+  }
 
   constructOptions() {
     const { options, fields, styles } = this.props;
@@ -145,13 +153,16 @@ class VindiciaFormWrapper extends Component {
   }
 
   updateHiddenFields() {
-    const otlHmacKey = '4Isv4EqzeKRHlXFHPU3OIBNzjNY';
-    const sessionId = `SEAT_PMT_${Math.random()
-      .toString(36)
-      .substr(2, 9)}`;
-    const sessionHash = CryptoJS.HmacSHA512(`${sessionId}#POST#/payment_methods`, otlHmacKey);
+    const { options } = this.props;
 
-    this.setState({ sessionId, sessionHash });
+    if (options.hmac && typeof options.hmac === 'string') {
+      const otlHmacKey = options.hmac;
+      const sessionId = `SEAT_PMT_${Math.random()
+        .toString(36)
+        .substr(2, 9)}`;
+      const sessionHash = CryptoJS.HmacSHA512(`${sessionId}#POST#/payment_methods`, otlHmacKey);
+      this.setState({ sessionId, sessionHash });
+    }
   }
 
   addFieldsToState() {
@@ -240,27 +251,31 @@ class VindiciaFormWrapper extends Component {
 
   render() {
     const {
-      sessionId, sessionHash, isValid, submitInProgress,
+      sessionId,
+      sessionHash,
+      isValid,
+      submitInProgress,
+      shouldLoad,
     } = this.state;
 
     const { options, children, vindicia } = this.props;
 
     return (
-      vindicia && (
+      vindicia && shouldLoad ? (
         <form id={options.formId || 'mainForm'}>
           <input name="vin_session_id" value={sessionId} type="hidden" />
           <input name="vin_session_hash" value={sessionHash} type="hidden" />
           <style type="text/css" dangerouslySetInnerHTML={{ __html: this.parseStyles() }} />
-            {children || (
-              <div>
-                {this.renderFields()}
-                <button type="submit" id="submitButton" disabled={!isValid || submitInProgress}>
-                  Submit
-                </button>
-              </div>
-            )}
+          {children || (
+            <div>
+              {this.renderFields()}
+              <button type="submit" id="submitButton" disabled={!isValid || submitInProgress}>
+                Submit
+              </button>
+            </div>
+          )}
         </form>
-      )
+      ) : null
     );
   }
 }
