@@ -16,7 +16,7 @@ const config = {
     rules: [{test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/}],
   },
   output: {
-    library: 'VindiciaFormWrapper',
+    library: 'VindiciaPmt',
     libraryTarget: 'umd',
   },
   plugins: [new webpack.optimize.OccurrenceOrderPlugin()],
