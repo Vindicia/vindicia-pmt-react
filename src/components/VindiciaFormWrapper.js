@@ -258,13 +258,29 @@ class VindiciaFormWrapper extends Component {
       shouldLoad,
     } = this.state;
 
-    const { options, children, vindicia } = this.props;
+    const {
+      options,
+      children,
+      vindicia,
+      vinValidate,
+      currency,
+      ignoreCvnPolicy,
+      minChargebackProb,
+      sourceIp,
+      ignoreAvsPolicy,
+    } = this.props;
 
     return (
       vindicia && shouldLoad ? (
         <form id={options.formId || 'mainForm'}>
           <input name="vin_session_id" value={sessionId} type="hidden" />
           <input name="vin_session_hash" value={sessionHash} type="hidden" />
+          { vinValidate && <input name="vin_validate" value={vinValidate} type="hidden" /> }
+          { ignoreAvsPolicy && <input name="vin_ignore_avs_policy" value="1" type="hidden" /> }
+          { ignoreCvnPolicy && <input name="vin_ignore_cvn_policy" value="1" type="hidden" /> }
+          { minChargebackProb && <input name="vin_min_chargeback_probability" value={minChargebackProb} type="hidden" /> }
+          { sourceIp && <input name="vin_source_ip" value={sourceIp} type="hidden" /> }
+          { currency && <input name="vin_currency" value="EUR" type="hidden" /> }
           <style type="text/css" dangerouslySetInnerHTML={{ __html: this.parseStyles() }} />
           {children || (
             <div>
@@ -284,7 +300,7 @@ VindiciaFormWrapper.propTypes = {
   options: PropTypes.shape({}),
   fields: PropTypes.arrayOf(PropTypes.object),
   styles: PropTypes.shape({}),
-  vindicia: PropTypes.shape({}).isRequired,
+  vindicia: PropTypes.shape({}),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -293,17 +309,30 @@ VindiciaFormWrapper.propTypes = {
   onSubmitCompleteEvent: PropTypes.func,
   onSubmitCompleteFailedEvent: PropTypes.func,
   onVindiciaFieldEvent: PropTypes.func,
+  vinValidate: PropTypes.string,
+  currency: PropTypes.bool,
+  ignoreCvnPolicy: PropTypes.bool,
+  minChargebackProb: PropTypes.string,
+  sourceIp: PropTypes.string,
+  ignoreAvsPolicy: PropTypes.bool,
 };
 
 VindiciaFormWrapper.defaultProps = {
   options: {},
   fields: null,
   styles: null,
+  vindicia: {},
   children: null,
   onSubmitEvent: () => true,
   onSubmitCompleteEvent: () => true,
   onSubmitCompleteFailedEvent: () => true,
   onVindiciaFieldEvent: () => true,
+  vinValidate: null,
+  currency: null,
+  ignoreCvnPolicy: null,
+  minChargebackProb: null,
+  sourceIp: null,
+  ignoreAvsPolicy: null,
 };
 
 export default VindiciaFormWrapper;
