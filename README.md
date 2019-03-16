@@ -8,8 +8,6 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 
 # Table of Contents
 
-- [vindicia-pmt-react](#vindicia-pmt-react)
-- [Table of Contents](#table-of-contents)
 - [Setup](#setup)
 - [Quickstart](#quickstart)
 - [Props](#props)
@@ -24,6 +22,7 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
   - [onSubmitEvent](#onsubmitevent)
   - [onSubmitCompleteEvent](#onsubmitcompleteevent)
   - [onSubmitCompleteFailedEvent](#onsubmitcompletefailedevent)
+  - [Hidden Fields](#hidden-fields)
 - [How to](#how-to)
   - [Create your form](#create-your-form)
   - [Style your form](#style-your-form)
@@ -71,6 +70,12 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 |[onSubmitEvent](#onSubmitEvent)|no
 |[onSubmitCompleteEvent](#onSubmitCompleteEvent)|no
 |[onSubmitCompleteFailedEvent](#onSubmitCompleteFailedEvent)|no
+|[vinValidate](#Hidden-Fields)|no
+|[currency](#Hidden-Fields)|no
+|[ignoreCvnPolicy](#Hidden-Fields)|no
+|[minChargebackProb](#Hidden-Fields)|no
+|[sourceIp](#Hidden-Fields)|no
+|[ignoreAvsPolicy](#Hidden-Fields)|no
 
 ---
 
@@ -108,6 +113,7 @@ The options settings are fairly straightforward. Likely, the only thing you will
 {
   formId: 'mainForm', // optional, defaults to 'mainForm'
   vindiciaAuthId: 'your-auth-id', // required
+  hmac: "your-hmac", // required
   vindiciaServer: "secure.vindicia.com", // required, to load the iframes from
   vindiciaRestServer: "api.vindicia.com", // required, to submit the JSON data to
   iframeHeightPadding: 0, // optional, defaults to 0
@@ -309,6 +315,47 @@ transition
 ## onSubmitCompleteFailedEvent
 
 `onSubmitCompleteFailedEvent` is called when the form has been submitted but fails server validation.
+
+---
+
+## Hidden Fields
+
+There are several hidden fields which are configurable. None are required for use, but the option to change them as needed is available. More information regarding these hidden fields are available in the Vindicia PMT documentation.
+
+The hidden fields which are configurable are:
+
+- `vin_validate`
+- `vin_ignore_avs_policy`
+- `vin_ignore_cvn_policy`
+- `vin_min_chargeback_probability`
+- `vin_source_ip`
+- `vin_currency`
+
+An example of how to use them is below:
+
+```javascript
+<VindiciaFormWrapper
+  vindicia={vindicia}
+  options={vindiciaOptions}
+  vinValidate="0"
+  currency="EUR"
+  ignoreCvnPolicy={true}
+  ignoreAvsPolicy={true}
+  minChargebackProb="100"
+  sourceIp="12.243.28.45"
+/>
+```
+
+These all correspond to the hidden fields listed below:
+
+```html
+<input name="vin_validate" value="0" type="hidden" />
+<input name="vin_ignore_avs_policy" value="1" type="hidden" />
+<input name="vin_ignore_cvn_policy" value="1" type="hidden" />
+<input name="vin_min_chargeback_probability" value="100" type="hidden" />
+<input name="vin_source_ip" value="12.243.28.45" type="hidden" />
+<input name="vin_currency" value="EUR" type="hidden" />
+```
 
 ---
 
