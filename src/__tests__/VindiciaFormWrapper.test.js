@@ -39,13 +39,19 @@ describe('VindiciaFormWrapper', () => {
       autocomplete: 'cc-csc',
     },
   ];
+  const options = {
+    hmac: '12345',
+    vindiciaAuthId: '12345'
+  };
   it('should render without throwing an error', () => {
     const wrapper = mount(
       <VindiciaFormWrapper
         fields={fields}
         vindicia={vindiciaObj}
+        options={options}
       />
     );
+    console.log(wrapper.debug());
     expect(wrapper.exists('#mainForm')).toBe(true);
   });
 
@@ -53,6 +59,7 @@ describe('VindiciaFormWrapper', () => {
     const wrapper = mount(<VindiciaFormWrapper
       fields={fields}
       vindicia={vindiciaObj}
+      options={options}
     />);
     expect(vindiciaObj.setup).toHaveBeenCalled();
     wrapper.unmount();
@@ -62,6 +69,7 @@ describe('VindiciaFormWrapper', () => {
   it('should generate default fields when no fields are passed in', () => {
     const wrapper = mount(<VindiciaFormWrapper
       vindicia={vindiciaObj}
+      options={options}
     />);
 
     // default fields at this time: cardNumber, expirationDate, cvn
@@ -76,6 +84,7 @@ describe('VindiciaFormWrapper', () => {
     const wrapper = mount(<VindiciaFormWrapper
       fields={fields}
       vindicia={vindiciaObj}
+      options={options}
     />);
 
     expect(wrapper.state('formFields')).toEqual({
@@ -98,6 +107,7 @@ describe('VindiciaFormWrapper', () => {
       fields={fields}
       vindicia={vindiciaObj}
       onSubmitEvent={mockSubmit}
+      options={options}
     />);
 
     expect(wrapper.find('button').prop('disabled')).toEqual(true);
@@ -127,6 +137,7 @@ describe('VindiciaFormWrapper', () => {
       onSubmitCompleteEvent={mockSubmitComplete}
       onSubmitCompleteFailedEvent={mockSubmitFail}
       onVindiciaFieldEvent={mockFieldChange}
+      options={options}
     />);
 
     wrapper.instance().onVindiciaFieldChange();
@@ -146,6 +157,7 @@ describe('VindiciaFormWrapper', () => {
     const wrapper = mount(<VindiciaFormWrapper
       fields={fields}
       vindicia={vindiciaObj}
+      options={options}
     />);
 
     const startingHash = wrapper.state('sessionHash');

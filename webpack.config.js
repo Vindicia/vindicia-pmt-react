@@ -9,6 +9,7 @@ module.exports = {
   output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].js',
+      publicPath: '/',
   },
   module: {
     rules: [
@@ -18,6 +19,9 @@ module.exports = {
         loader: 'babel-loader',
       },
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({

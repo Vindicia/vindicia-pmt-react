@@ -21,7 +21,11 @@
   "jest": {
     "testEnvironmentOptions": {
       "enzymeAdapter": "react16"
-    }
+    },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/es/",
+      "<rootDir>/lib/"
+    ]
   },
   "repository": "git+https://github.com/vindicia/vindicia-pmt-react.git",
   "author": "Vindicia (https://www.vindicia.com)",
@@ -68,6 +72,7 @@
     "jest-environment-enzyme": "^7.0.1",
     "jest-enzyme": "^7.0.1",
     "react-dom": "^16.8.4",
+    "react-router-dom": "^4.4.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
