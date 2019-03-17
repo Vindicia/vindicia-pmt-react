@@ -36,7 +36,9 @@ class VindiciaFormWrapper extends Component {
 
   componentWillUnmount() {
     const { vindicia } = this.props;
-    vindicia.destroy();
+    if (vindicia.destroy) {
+      vindicia.destroy();
+    }
   }
 
   onFieldChange(field, e) {
@@ -129,7 +131,7 @@ class VindiciaFormWrapper extends Component {
     }
 
     hostedFields.styles = styles || defaultStyles;
-    options.iframeHeightPadding = options.iframeHeightPadding || 0;
+    const iframeHeightPadding = options.iframeHeightPadding || 0;
     options.formId = options.formId || 'mainForm';
 
     const localOptions = {
@@ -140,6 +142,7 @@ class VindiciaFormWrapper extends Component {
       onSubmitCompleteEvent: this.onSubmitComplete,
       onSubmitCompleteFailedEvent: this.onSubmitFail,
       onVindiciaFieldEvent: this.onVindiciaFieldChange,
+      iframeHeightPadding,
     };
 
     return localOptions;
