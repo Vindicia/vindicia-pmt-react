@@ -7,7 +7,7 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 ---
 
 # Table of Contents
-
+- [Demo](#Demo)
 - [Setup](#setup)
 - [Quickstart](#quickstart)
 - [Props](#props)
@@ -29,10 +29,22 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 
 ---
 
+# Demo
+
+1. Install vindicia-pmt-react locally\
+`npm install vindicia-pmt-react`
+
+2. Run demo start script\
+`npm run demo`
+
+3. Open demo in browser at [http://localhost:8080](http://localhost:8080)
+
+---
+
 # Setup
 
-1. Install vindicia-react\
-`npm install --save vindicia-pmt-react`
+1. Install vindicia-pmt-react\
+`npm install vindicia-pmt-react`
 
 2. Add Vindicia to application\
 `<script id="vindicia-js" src="https://secure.vindicia.com/pmt/vindicia.js" async></script>`
@@ -51,7 +63,8 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
         {
           vindiciaAuthId: 'your-auth-id',
           vindiciaServer: 'secure.vindicia.com',
-          vindiciaRestServer: 'api.vindicia.com'
+          vindiciaRestServer: 'api.vindicia.com',
+          hmac: 'your-hmac'
         }
       }
       onSubmitCompleteEvent={(e) => console.log('Form submit success!', e)}
@@ -107,7 +120,7 @@ componentWillMount() {
 
 ## options
 
-The options settings are fairly straightforward. Likely, the only thing you will need to edit is the `vindiciaAuthId`.
+The options settings are fairly straightforward.
 
 ```javascript
 {
