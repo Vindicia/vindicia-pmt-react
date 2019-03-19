@@ -2,34 +2,28 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
-import VindiciaFormWrapper from '../src/index'
-
-const onFormSubmitComplete = () => console.log('Form Submitted and Validated');
-const onFormSubmit = () => console.log('Form Submitted');
-const onFormVindiciaFieldEvent = () => console.log('Field Event');
+import VindiciaFormWrapper from '../src/index';
 
 class GeneratedForm extends React.Component {
   constructor() {
     super();
     this.state = {
-        vindicia: null,
-        isValid: false, 
-        isSynced: false,
-        isComplete: false
+        detail: null
     };
-}
+  }
 
-componentWillMount() {
-    if (window.vindicia) {
-        this.setState({vindicia: window.vindicia});
-    } else {
-        document.querySelector('#vindicia-js').addEventListener('load', () => {
-            this.setState({vindicia: window.vindicia});
-        });
-    }
-}
+  onFormSubmitComplete = (data) => {
+    this.setState({ detail: data.detail });
+    console.log('Form Submitted and Validated', data);
+  }
+
+  onFormSubmit = (data) => {
+    console.log('Form Submitted', data);
+    return true;
+  }
+
   render() {
-    const { vindicia } = this.state;
+    const { detail } = this.state;
     return (
       <div className="example">
         <h1>Generated Form</h1>
@@ -52,24 +46,28 @@ componentWillMount() {
           <pre>
             {`
             <VindiciaFormWrapper
-              vindicia={vindicia}
+              vindicia={window.vindicia}
               options={vindiciaOptions}
-              onSubmitCompleteEvent={onFormSubmitComplete}
-              onSubmitEvent={onFormSubmit}
-              onVindiciaFieldEvent={onFormVindiciaFieldEvent}
+              onSubmitCompleteEvent={this.onFormSubmitComplete}
+              onSubmitEvent={this.onFormSubmit}
             />
             `}
           </pre>
         </div>
         <div className="form-container">
           <VindiciaFormWrapper
-            vindicia={vindicia}
+            vindicia={window.vindicia}
             options={vindiciaOptions}
-            onSubmitCompleteEvent={onFormSubmitComplete}
-            onSubmitEvent={onFormSubmit}
-            onVindiciaFieldEvent={onFormVindiciaFieldEvent}
+            onSubmitCompleteEvent={this.onFormSubmitComplete}
+            onSubmitEvent={this.onFormSubmit}
             vinValidate="0"
           />
+          {detail && 
+            <div className="results">
+              Form submitted successfully!<br />
+              vid: <span>{detail.vid}</span>
+            </div>
+          }
         </div>
       </div>
     );
@@ -80,24 +78,22 @@ class FormFromProps extends React.Component {
   constructor() {
     super();
     this.state = {
-        vindicia: null,
-        isValid: false, 
-        isSynced: false,
-        isComplete: false
+        detail: null
     };
-}
+  }
 
-componentWillMount() {
-    if (window.vindicia) {
-        this.setState({vindicia: window.vindicia});
-    } else {
-        document.querySelector('#vindicia-js').addEventListener('load', () => {
-            this.setState({vindicia: window.vindicia});
-        });
-    }
-}
+  onFormSubmitComplete = (data) => {
+    this.setState({ detail: data.detail });
+    console.log('Form Submitted and Validated', data);
+  }
+
+  onFormSubmit = (data) => {
+    console.log('Form Submitted', data);
+    return true;
+  }
+
   render() {
-    const { vindicia } = this.state;
+    const { detail } = this.state;
     return (
       <div className="example">
         <h1>Form from fields prop - Vindicia-created</h1>
@@ -155,12 +151,11 @@ componentWillMount() {
           <pre>
             {`
             <VindiciaFormWrapper
-              vindicia={vindicia}
+              vindicia={window.vindicia}
               options={vindiciaOptions}
               fields={fields}
               onSubmitCompleteEvent={onFormSubmitComplete}
               onSubmitEvent={onFormSubmit}
-              onVindiciaFieldEvent={onFormVindiciaFieldEvent}
             />
             `}
           </pre>
@@ -168,14 +163,19 @@ componentWillMount() {
         </div>
         <div className="form-container">
           <VindiciaFormWrapper
-            vindicia={vindicia}
+            vindicia={window.vindicia}
             options={vindiciaOptions}
             fields={fields}
-            onSubmitCompleteEvent={onFormSubmitComplete}
-            onSubmitEvent={onFormSubmit}
-            onVindiciaFieldEvent={onFormVindiciaFieldEvent}
+            onSubmitCompleteEvent={this.onFormSubmitComplete}
+            onSubmitEvent={this.onFormSubmit}
             vinValidate="0"
           />
+          {detail && 
+            <div className="results">
+              Form submitted successfully!<br />
+              vid: <span>{detail.vid}</span>
+            </div>
+          }
         </div>
       </div>
     );
@@ -186,24 +186,22 @@ class FormFromCustomFields extends React.Component {
   constructor() {
     super();
     this.state = {
-        vindicia: null,
-        isValid: false, 
-        isSynced: false,
-        isComplete: false
+        detail: null
     };
-}
+  }
 
-componentWillMount() {
-    if (window.vindicia) {
-        this.setState({vindicia: window.vindicia});
-    } else {
-        document.querySelector('#vindicia-js').addEventListener('load', () => {
-            this.setState({vindicia: window.vindicia});
-        });
-    }
-}
+  onFormSubmitComplete = (data) => {
+    this.setState({ detail: data.detail });
+    console.log('Form Submitted and Validated', data);
+  }
+
+  onFormSubmit = (data) => {
+    console.log('Form Submitted', data);
+    return true;
+  }
+
   render() {
-    const { vindicia } = this.state;
+    const { detail } = this.state;
     return (
       <div className="example">
         <h1>Form from fields prop - Custom</h1>
@@ -216,7 +214,8 @@ componentWillMount() {
                 {
                   type: 'text',
                   placeholder: 'Full Name',
-                  label: 'Full Name'
+                  label: 'Full Name',
+                  name: 'name
                 },
                 {
                   render: (
@@ -271,12 +270,11 @@ componentWillMount() {
           <pre>
             {`
             <VindiciaFormWrapper
-              vindicia={vindicia}
+              vindicia={window.vindicia}
               options={vindiciaOptions}
               fields={customFields}
               onSubmitCompleteEvent={onFormSubmitComplete}
               onSubmitEvent={onFormSubmit}
-              onVindiciaFieldEvent={onFormVindiciaFieldEvent}
             />
             `}
           </pre>
@@ -284,14 +282,19 @@ componentWillMount() {
         </div>
         <div className="form-container">
           <VindiciaFormWrapper
-            vindicia={vindicia}
+            vindicia={window.vindicia}
             options={vindiciaOptions}
             fields={customFields}
-            onSubmitCompleteEvent={onFormSubmitComplete}
-            onSubmitEvent={onFormSubmit}
-            onVindiciaFieldEvent={onFormVindiciaFieldEvent}
+            onSubmitCompleteEvent={this.onFormSubmitComplete}
+            onSubmitEvent={this.onFormSubmit}
             vinValidate="0"
           />
+          {detail && 
+            <div className="results">
+              Form submitted successfully!<br />
+              vid: <span>{detail.vid}</span>
+            </div>
+          }
         </div>
       </div>
     );
@@ -303,24 +306,22 @@ class FormFromChildren extends React.Component {
   constructor() {
     super();
     this.state = {
-        vindicia: null,
-        isValid: false, 
-        isSynced: false,
-        isComplete: false
+        detail: null
     };
-}
+  }
 
-componentWillMount() {
-    if (window.vindicia) {
-        this.setState({vindicia: window.vindicia});
-    } else {
-        document.querySelector('#vindicia-js').addEventListener('load', () => {
-            this.setState({vindicia: window.vindicia});
-        });
-    }
-}
+  onFormSubmitComplete = (data) => {
+    this.setState({ detail: data.detail });
+    console.log('Form Submitted and Validated', data);
+  }
+
+  onFormSubmit = (data) => {
+    console.log('Form Submitted', data);
+    return true;
+  }
+
   render() {
-    const { vindicia } = this.state;
+    const { detail } = this.state;
     return (
       <div className="example">
         <h1>Form from children prop</h1>
@@ -342,11 +343,10 @@ componentWillMount() {
           <pre>
             {`
             <VindiciaFormWrapper
-            vindicia={vindicia}
+            vindicia={window.vindicia}
             options={vindiciaOptions}
             onSubmitCompleteEvent={onFormSubmitComplete}
             onSubmitEvent={onFormSubmit}
-            onVindiciaFieldEvent={onFormVindiciaFieldEvent}
             vinValidate="0"
           >
             <div>
@@ -390,11 +390,10 @@ componentWillMount() {
         </div>
         <div className="form-container">
           <VindiciaFormWrapper
-            vindicia={vindicia}
+            vindicia={window.vindicia}
             options={vindiciaOptions}
-            onSubmitCompleteEvent={onFormSubmitComplete}
-            onSubmitEvent={onFormSubmit}
-            onVindiciaFieldEvent={onFormVindiciaFieldEvent}
+            onSubmitCompleteEvent={this.onFormSubmitComplete}
+            onSubmitEvent={this.onFormSubmit}
             vinValidate="0"
           >
             <div>
@@ -433,6 +432,12 @@ componentWillMount() {
               <button type="submit">Submit</button>
             </div>
           </VindiciaFormWrapper>
+          {detail && 
+            <div className="results">
+              Form submitted successfully!<br />
+              vid: <span>{detail.vid}</span>
+            </div>
+          }
         </div>
       </div>
     );
@@ -473,7 +478,8 @@ const customFields = [
   {
     type: 'text',
     placeholder: 'Full Name',
-    label: 'Full Name'
+    label: 'Full Name',
+    name: 'name'
   },
   {
     render: (
