@@ -33,11 +33,14 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 
 # Demo
 
-1. Install vindicia-pmt-react locally\
-`npm install vindicia-pmt-react`
+1. Clone the `vindicia-pmt-react` Github repo locally\
+`git clone https://github.com/Vindicia/vindicia-pmt-react.git`
 
-2. Run demo start script\
-`npm run demo`
+2. Install dependencies\
+`yarn install`
+
+3. Run demo start script\
+`yarn run demo`
 
 3. Open demo in browser at [http://localhost:8080](http://localhost:8080)
 
