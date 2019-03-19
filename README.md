@@ -7,7 +7,9 @@ A React.js wrapper component for the Vindicia Payment Method Tokenization (PMT) 
 ---
 
 # Table of Contents
-- [Demo](#Demo)
+- [vindicia-pmt-react](#vindicia-pmt-react)
+- [Table of Contents](#table-of-contents)
+- [Demo](#demo)
 - [Setup](#setup)
 - [Quickstart](#quickstart)
 - [Props](#props)
@@ -316,6 +318,8 @@ transition
 ## onSubmitEvent
 
 `onSubmitEvent` fires when the submit button is clicked, but before data is submitted. This is your chance to run validation on the form's inputs.
+
+It is important to note, that when using `onSubmitEvent` for validation, you must return `true` if the data is in fact valid, otherwise the data will not be sent to Vindicia for validation.
 
 ---
 

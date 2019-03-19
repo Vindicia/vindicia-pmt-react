@@ -67,10 +67,11 @@ class VindiciaFormWrapper extends Component {
     return onVindiciaFieldEvent(event);
   };
 
-  onSubmit = (form) => {
+  onSubmit = () => {
+    const { formFields } = this.state;
     const { onSubmitEvent } = this.props;
     this.setState({ submitInProgress: true });
-    return onSubmitEvent(form);
+    return onSubmitEvent(formFields);
   };
 
   onSubmitFail = (data) => {
