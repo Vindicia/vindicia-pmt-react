@@ -106,6 +106,7 @@ class VindiciaFormWrapper extends Component {
               placeholder: item.placeholder || hostedFieldDefaults[i].placeholder || '',
               label: item.label || hostedFieldDefaults[i].label,
               format: item.format || hostedFieldDefaults[i].format,
+              formatinput: item.formatinput || hostedFieldDefaults[i].formatinput,
             };
           }
         }
@@ -119,6 +120,7 @@ class VindiciaFormWrapper extends Component {
             format: hostedFieldDefaults[i].format,
             placeholder: '',
             type: hostedFieldDefaults[i].name,
+            formatinput: hostedFieldDefaults[i].formatinput,
           };
           localFields.push({
             selector: hostedFieldDefaults[i].selector,
