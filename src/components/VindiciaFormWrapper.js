@@ -303,10 +303,21 @@ class VindiciaFormWrapper extends Component {
 }
 
 VindiciaFormWrapper.propTypes = {
-  options: PropTypes.shape({}),
+  options: PropTypes.shape({
+    vindiciaAuthId: PropTypes.string,
+    hmac: PropTypes.string,
+    iframeHeightPadding: PropTypes.number,
+    formId: PropTypes.string,
+  }),
   fields: PropTypes.arrayOf(PropTypes.object),
   styles: PropTypes.shape({}),
-  vindicia: PropTypes.shape({}),
+  vindicia: PropTypes.shape({
+    setup: PropTypes.func,
+    destroy: PropTypes.func,
+    isValid: PropTypes.func,
+    resetCompleteStatus: PropTypes.func,
+    clearData: PropTypes.func,
+  }),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
