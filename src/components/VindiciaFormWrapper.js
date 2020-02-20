@@ -106,6 +106,7 @@ class VindiciaFormWrapper extends Component {
               placeholder: item.placeholder || hostedFieldDefaults[i].placeholder || '',
               label: item.label || hostedFieldDefaults[i].label,
               format: item.format || hostedFieldDefaults[i].format,
+              formatinput: item.formatinput || hostedFieldDefaults[i].formatinput,
             };
           }
         }
@@ -119,6 +120,7 @@ class VindiciaFormWrapper extends Component {
             format: hostedFieldDefaults[i].format,
             placeholder: '',
             type: hostedFieldDefaults[i].name,
+            formatinput: hostedFieldDefaults[i].formatinput,
           };
           localFields.push({
             selector: hostedFieldDefaults[i].selector,
@@ -301,10 +303,21 @@ class VindiciaFormWrapper extends Component {
 }
 
 VindiciaFormWrapper.propTypes = {
-  options: PropTypes.shape({}),
+  options: PropTypes.shape({
+    vindiciaAuthId: PropTypes.string,
+    hmac: PropTypes.string,
+    iframeHeightPadding: PropTypes.number,
+    formId: PropTypes.string,
+  }),
   fields: PropTypes.arrayOf(PropTypes.object),
   styles: PropTypes.shape({}),
-  vindicia: PropTypes.shape({}),
+  vindicia: PropTypes.shape({
+    setup: PropTypes.func,
+    destroy: PropTypes.func,
+    isValid: PropTypes.func,
+    resetCompleteStatus: PropTypes.func,
+    clearData: PropTypes.func,
+  }),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
