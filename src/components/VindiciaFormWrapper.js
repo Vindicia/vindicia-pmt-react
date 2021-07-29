@@ -15,11 +15,8 @@ class VindiciaFormWrapper extends Component {
       submitInProgress: false,
       formFields: {},
       shouldLoad: this.shouldLoad(),
+      ...this.addFieldsToState(),
     };
-  }
-
-  componentWillMount() {
-    this.addFieldsToState();
   }
 
   componentDidMount() {
@@ -28,7 +25,7 @@ class VindiciaFormWrapper extends Component {
 
     if (shouldLoad) {
       this.updateHiddenFields();
-      if (vindicia) {
+      if (vindicia && vindicia.setup) {
         vindicia.setup(localOptions);
       }
     }
@@ -184,7 +181,7 @@ class VindiciaFormWrapper extends Component {
       });
     }
 
-    this.setState({ formFields });
+    return formFields;
   }
 
   parseStyles() {
