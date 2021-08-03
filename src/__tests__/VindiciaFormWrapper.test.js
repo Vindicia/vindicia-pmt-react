@@ -1,6 +1,7 @@
+import 'jsdom-global/register'
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from 'enzyme-adapter-react-17-updated';
 import VindiciaFormWrapper from '../components/VindiciaFormWrapper';
 
 Enzyme.configure({ adapter: new Adapter() });
