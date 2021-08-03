@@ -13,9 +13,8 @@ class VindiciaFormWrapper extends Component {
       localOptions: this.constructOptions(),
       isValid: false,
       submitInProgress: false,
-      formFields: {},
+      formFields: this.addFieldsToState(),
       shouldLoad: this.shouldLoad(),
-      ...this.addFieldsToState(),
     };
   }
 
