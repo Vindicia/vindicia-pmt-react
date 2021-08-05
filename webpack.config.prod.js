@@ -19,7 +19,6 @@ const config = {
     library: 'VindiciaPmt',
     libraryTarget: 'umd',
   },
-  plugins: [new webpack.optimize.OccurrenceOrderPlugin()],
 };
 
 module.exports = (env) => {
