@@ -37,8 +37,8 @@ class GeneratedForm extends React.Component {
             const vindiciaOptions= {
               formId: "mainForm",
               vindiciaAuthId: "your-auth-id",
-              vindiciaServer: "secure.prodtest.sj.vindicia.com",
-              vindiciaRestServer: "api.prodtest.vindicia.com",
+              vindiciaServer: "secure.staging.us-west.vindicia.com",
+              vindiciaRestServer: "api.staging.us-west.vindicia.com",
               hmac: 'your-hmac-key'
             };
             `}
@@ -142,8 +142,8 @@ class FormFromProps extends React.Component {
             const vindiciaOptions= {
               formId: "mainForm",
               vindiciaAuthId: "your-auth-id",
-              vindiciaServer: "secure.prodtest.sj.vindicia.com",
-              vindiciaRestServer: "api.prodtest.vindicia.com",
+              vindiciaServer: "secure.staging.us-west.vindicia.com",
+              vindiciaRestServer: "api.staging.us-west.vindicia.com",
               hmac: 'your-hmac-key'
             };
             `}
@@ -261,8 +261,8 @@ class FormFromCustomFields extends React.Component {
             const vindiciaOptions= {
               formId: "mainForm",
               vindiciaAuthId: "your-auth-id",
-              vindiciaServer: "secure.prodtest.sj.vindicia.com",
-              vindiciaRestServer: "api.prodtest.vindicia.com",
+              vindiciaServer: "secure.staging.us-west.vindicia.com",
+              vindiciaRestServer: "api.staging.us-west.vindicia.com",
               hmac: 'your-hmac-key'
             };
             `}
@@ -334,8 +334,8 @@ class FormFromChildren extends React.Component {
             const vindiciaOptions= {
               formId: "mainForm",
               vindiciaAuthId: "your-auth-id",
-              vindiciaServer: "secure.prodtest.sj.vindicia.com",
-              vindiciaRestServer: "api.prodtest.vindicia.com",
+              vindiciaServer: "secure.staging.us-west.vindicia.com",
+              vindiciaRestServer: "api.staging.us-west.vindicia.com",
               hmac: 'your-hmac-key'
             };
             `}
@@ -522,8 +522,8 @@ const customFields = [
 const vindiciaOptions= {
   formId: "mainForm",
   vindiciaAuthId: "cG10X3JlYWN0X2RlbW9fb3RsOnBtdF9yZWFjdF9kZW1vX290bA===", // Authorization: Basic header"
-  vindiciaServer: "secure.prodtest.sj.vindicia.com", // to load the iframes from
-  vindiciaRestServer: "api.prodtest.vindicia.com", // to submit the JSON data to
+  vindiciaServer: "secure.staging.us-west.vindicia.com", // to load the iframes from
+  vindiciaRestServer: "api.staging.us-west.vindicia.com", // to submit the JSON data to
   iframeHeightPadding: 0,
   hmac: 'FVNszvMg6fVjf736_LSX0w5GZio'
 };
