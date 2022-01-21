@@ -444,6 +444,183 @@ class FormFromChildren extends React.Component {
   }
 }
 
+class FormWithStyles extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+        detail: null
+    };
+  }
+
+  onFormSubmitComplete = (data) => {
+    this.setState({ detail: data.detail });
+    console.log('Form Submitted and Validated', data);
+  }
+
+  onFormSubmit = (data) => {
+    console.log('Form Submitted', data);
+    return true;
+  }
+
+  render() {
+    const { detail } = this.state;
+    return (
+      <div className="example">
+        <script type="text/css">
+        </script>
+        <h1>Form with styles prop - Custom</h1>
+        <div className="description">
+        <p>The form below makes use of the <code>styles</code> prop. More information
+          regarding the use of the <code>styles</code> prop can be found <a href="https://github.com/Vindicia/vindicia-pmt-react#styles">here</a>.</p>
+          <pre>
+            {`
+            const customStyles = {
+              form: {
+                'font-family': 'Titillium Web',
+                'font-style': 'normal',
+                'font-weight': 'bold'
+              },
+              input: {
+                width: '200px',
+                display: 'block',
+                'font-size': '14px',
+                'font-family': 'Titillium Web',
+                color: '#3ca2a9',
+                height: 'auto',
+                padding: '6px 12px',
+                margin: '5px 0px 20px 0px',
+                'line-height': '1.42857',
+                border: '1px solid #ccc',
+                'border-radius': '4px',
+                'box-shadow': '0px 1px 1px rgba(0,0,0,0.075) inset',
+              },
+              ':focus': {
+                'border-color': '#66afe9',
+                outline: '0',
+              },
+              '.valid': {
+                'border-color': '#228B22',
+              },
+              '.notValid': {
+                'border-color': '#ff0000',
+              },
+              '.text-block': {
+                padding: '10px',
+                'background-color': '#ccc',
+                width: '300px',
+              },
+              'button[type="submit"]': {
+                padding: '10px 20px',
+                'background-color': '#ccc',
+                color: '#777',
+                'border-radius': '4px',
+                'font-size': '12px',
+              },
+              'button[type="submit"][disabled]': {
+                'background-color': '#eee',
+                color: '#777',
+              },
+            };
+            `}
+          </pre>
+          <pre>
+            {`
+            const vindiciaOptions= {
+              formId: "mainForm",
+              vindiciaAuthId: "your-auth-id",
+              vindiciaServer: "secure.staging.us-west.vindicia.com",
+              vindiciaRestServer: "api.staging.us-west.vindicia.com",
+              hmac: 'your-hmac-key'
+            };
+            `}
+          </pre>
+          <pre>
+            {`
+            <div className="form-container">
+              <link href="https://fonts.googleapis.com/css2?family=Titillium+Web"
+                rel="stylesheet"/>
+              <VindiciaFormWrapper
+              vindicia={window.vindicia}
+              styles={customStyles}
+              options={vindiciaOptions}
+              onSubmitCompleteEvent={onFormSubmitComplete}
+              onSubmitEvent={onFormSubmit}
+              vinValidate="0"
+            >
+                <div>
+                  <div className="form--section">
+                    <div className="form--section__header">
+                      Payment Information
+                    </div>
+                    <div className="form--field-group">
+                      <label>Cardholder's Name</label>
+                      <input type="text" required />
+                    </div>
+                    <div className="form--field-group">
+                      <label>Credit Card Number</label>
+                      <div id="vin_credit_card_account"></div>
+                    </div>
+                    <div className="form--field-group">
+                      <label>Expiration Date</label>
+                      <div id="vin_credit_card_expiration_date"></div>
+                    </div>
+                    <div className="form--field-group">
+                      <label>CVN</label>
+                      <div id="vin_credit_card_cvn"></div>
+                    </div>
+                  </div>
+                  <button type="submit">Submit</button>
+                </div>
+              </VindiciaFormWrapper>
+            </div>
+            `}
+          </pre>
+        </div>
+        <div className="form-container">
+          <link href="https://fonts.googleapis.com/css2?family=Titillium+Web" rel="stylesheet"/>
+          <VindiciaFormWrapper
+            vindicia={window.vindicia}
+            styles={customStyles}
+            options={vindiciaOptions}
+            onSubmitCompleteEvent={this.onFormSubmitComplete}
+            onSubmitEvent={this.onFormSubmit}
+            vinValidate="0"
+          >
+            <div>
+              <div className="form--section">
+                <div className="form--section__header">Payment Information</div>
+                <div className="form--field-group">
+                  <label>Cardholder's Name</label>
+                  <input type="text" required />
+                </div>
+                <div className="form--field-group">
+                  <label>Credit Card Number</label>
+                  <div id="vin_credit_card_account"></div>
+                </div>
+                <div className="form--field-group">
+                  <label>Expiration Date</label>
+                  <div id="vin_credit_card_expiration_date"></div>
+                </div>
+                <div className="form--field-group">
+                  <label>CVN</label>
+                  <div id="vin_credit_card_cvn"></div>
+                </div>
+              </div>
+              <button type="submit">Submit</button>
+            </div>
+          </VindiciaFormWrapper>
+          {detail &&
+            <div className="results">
+              Form submitted successfully!<br />
+              vid: <span>{detail.vid}</span>
+            </div>
+          }
+        </div>
+      </div>
+    );
+  }
+}
+
 const fields = [
   {
     type: 'cardNumber',
@@ -473,6 +650,54 @@ const fields = [
     placeholder: 'Zip Code'
   },
 ];
+
+const customStyles = {
+  form: {
+    'font-family': 'Titillium Web',
+    'font-style': 'italic',
+    'font-weight': 'bold'
+  },
+  input: {
+    width: '200px',
+    display: 'block',
+    'font-size': '14px',
+    'font-family': 'Titillium Web',
+    color: '#3ca2a9',
+    height: 'auto',
+    padding: '6px 12px',
+    margin: '5px 0px 20px 0px',
+    'line-height': '1.42857',
+    border: '1px solid #ccc',
+    'border-radius': '4px',
+    'box-shadow': '0px 1px 1px rgba(0,0,0,0.075) inset',
+  },
+  ':focus': {
+    'border-color': '#66afe9',
+    outline: '0',
+  },
+  '.valid': {
+    'border-color': '#228B22',
+  },
+  '.notValid': {
+    'border-color': '#ff0000',
+  },
+  '.text-block': {
+    padding: '10px',
+    'background-color': '#ccc',
+    width: '300px',
+  },
+  'button[type="submit"]': {
+    padding: '10px 20px',
+    'background-color': '#ccc',
+    color: '#777',
+    'border-radius': '4px',
+    'font-size': '12px',
+  },
+  'button[type="submit"][disabled]': {
+    'background-color': '#eee',
+    color: '#777',
+  },
+};
 
 const customFields = [
   {
@@ -541,6 +766,7 @@ const App = () => {
             <li><NavLink className="nav--link" to="fields-vindicia-created">Form from fields prop - Vindicia-created</NavLink></li>
             <li><NavLink className="nav--link" to="fields-custom">Form from fields prop - Custom</NavLink></li>
             <li><NavLink className="nav--link" to="form-from-children">Form from children prop</NavLink></li>
+            <li><NavLink className="nav--link" to="form-with-styles">Form with styles prop - custom</NavLink></li>
           </ul>
         </div>
       </div>
@@ -548,6 +774,7 @@ const App = () => {
       <Route path="/fields-vindicia-created" component={FormFromProps} />
       <Route path="/fields-custom" component={FormFromCustomFields} />
       <Route path="/form-from-children" component={FormFromChildren} />
+      <Route path="/form-with-styles" component={FormWithStyles} />
     </Router>
   );
 };
