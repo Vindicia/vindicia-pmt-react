@@ -424,7 +424,8 @@ There are three methods to creating your form. You can:
 
 ## Style your form
 
-`VindiciaFormWrapper` is quite customizable as far as styling goes. This is an example style object passed in via the `style` prop:
+`VindiciaFormWrapper` is quite customizable as far as styling goes. You can even have your custom `fonts` by adding font link reference in the code and then using the relevant font as part of `font-family`. Please run the demo and refer `Form with styles prop - custom` section for more details.
+This is an example style object passed in via the `style` prop:
 ```javascript
 const style = {
   input: {
