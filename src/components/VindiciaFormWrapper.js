@@ -309,7 +309,7 @@ VindiciaFormWrapper.propTypes = {
     iframeHeightPadding: PropTypes.number,
     formId: PropTypes.string,
   }),
-  fields: PropTypes.arrayOf(PropTypes.object),
+  fields: PropTypes.arrayOf(PropTypes.object()),
   styles: PropTypes.shape({}),
   vindicia: PropTypes.shape({
     setup: PropTypes.func,
